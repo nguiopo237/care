@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { 
   TrendingUp, 
   Plus, 
@@ -22,6 +23,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
+  const { t } = useTranslation();
   // Local state for logging form
   const [showLogModal, setShowLogModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -111,7 +113,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
     const height = 150;
     const padding = 25;
     
-    if (data.length === 0) return <div className="text-slate-400 text-sm py-4">Pas de données.</div>;
+    if (data.length === 0) return <div className="text-slate-400 text-sm py-4">{t("common.noData")}</div>;
     
     const maxVal = Math.max(...data) * 1.1;
     const minVal = Math.min(...data) * 0.9 > 0 ? Math.min(...data) * 0.9 : 0;
@@ -197,13 +199,13 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
       <div className="relative overflow-hidden bg-[#064E3B] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
         <div className="relative z-10 max-w-2xl">
           <span className="bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/30 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-opacity-80">
-            Espace Bien-être Personnel
+            {t("dashboard.heroBadge")}
           </span>
           <h2 className="font-sans text-3xl sm:text-4xl font-bold mt-4 leading-tight">
-            Bonjour, {profile.gender === "Femme" ? "Camille" : "Ami(e)"} 👋
+            {t("dashboard.heroTitle", { name: "Camille" })}
           </h2>
           <p className="text-emerald-100/90 text-sm mt-2.5 leading-relaxed">
-            Suivez vos constantes vitales au quotidien et laissez notre IA CEan'sCare vous guider vers un mode de vie plus sain et régénérateur.
+            {t("dashboard.heroDesc")}
           </p>
           <div className="flex flex-wrap gap-4 mt-6">
             <button
@@ -212,7 +214,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
               className="flex items-center space-x-2 bg-white text-[#064E3B] hover:bg-slate-100 font-bold text-sm px-5 py-3 rounded-xl shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
-              <span>Saisir mes Constantes</span>
+              <span>{t("dashboard.logButton")}</span>
             </button>
             <button
               id="btn-quick-water"
@@ -220,7 +222,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
               className="flex items-center space-x-2 bg-white/10 hover:bg-white/15 text-white font-medium text-sm px-5 py-3 rounded-xl border border-white/20 transition-all"
             >
               <Droplet className="w-4 h-4 text-blue-300" />
-              <span>+250ml d'Eau Rapide</span>
+              <span>{t("dashboard.quickWater")}</span>
             </button>
           </div>
         </div>
@@ -235,7 +237,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
         {/* Poids */}
         <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Poids</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t("dashboard.weight")}</span>
             <div className="p-2 rounded-xl bg-teal-50 text-teal-600">
               <Scale className="w-4 h-4" />
             </div>
@@ -243,16 +245,15 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
           <div className="mt-4">
             <div className="flex items-baseline space-x-1">
               <span className="text-2xl font-bold font-sans text-[#064E3B]">{currentWeight}</span>
-              <span className="text-xs text-slate-400 font-medium">kg</span>
-            </div>
-            <p className="text-[10px] text-slate-400 mt-1">Objectif : Stable</p>
+              <span className="text-xs text-slate-400 font-medium">{t("dashboard.weightUnit")}</span>
+            </div>                <p className="text-[10px] text-slate-400 mt-1">{t("dashboard.weightTarget")}</p>
           </div>
         </div>
 
         {/* Tension Artérielle */}
         <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tension</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t("dashboard.bloodPressure")}</span>
             <div className="p-2 rounded-xl bg-rose-50 text-rose-600">
               <Activity className="w-4 h-4" />
             </div>
@@ -262,16 +263,16 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
               <span className="text-xl font-bold font-sans text-[#064E3B]">{currentSystolic}</span>
               <span className="text-sm text-slate-400">/</span>
               <span className="text-xl font-bold font-sans text-[#064E3B]">{currentDiastolic}</span>
-              <span className="text-[10px] text-slate-400 ml-1">mmHg</span>
+              <span className="text-[10px] text-slate-400 ml-1">{t("dashboard.bloodPressureUnit")}</span>
             </div>
-            <p className="text-[10px] text-emerald-600 font-medium mt-1">✓ Tension normale</p>
+            <p className="text-[10px] text-emerald-600 font-medium mt-1">{t("dashboard.bloodPressureNormal")}</p>
           </div>
         </div>
 
         {/* Rythme Cardiaque */}
         <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Pulsations</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t("dashboard.heartRate")}</span>
             <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
               <Heart className="w-4 h-4" />
             </div>
@@ -279,16 +280,16 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
           <div className="mt-4">
             <div className="flex items-baseline space-x-1">
               <span className="text-2xl font-bold font-sans text-[#064E3B]">{currentHeartRate}</span>
-              <span className="text-xs text-slate-400 font-medium">bpm</span>
+              <span className="text-xs text-slate-400 font-medium">{t("dashboard.heartRateUnit")}</span>
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">Au repos</p>
+            <p className="text-[10px] text-slate-400 mt-1">{t("dashboard.heartRateRest")}</p>
           </div>
         </div>
 
         {/* Eau */}
         <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Eau</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t("dashboard.water")}</span>
             <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
               <Droplet className="w-4 h-4" />
             </div>
@@ -296,16 +297,16 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
           <div className="mt-4">
             <div className="flex items-baseline space-x-1">
               <span className="text-2xl font-bold font-sans text-[#064E3B]">{(currentWater / 1000).toFixed(2)}</span>
-              <span className="text-xs text-slate-400 font-medium">L</span>
+              <span className="text-xs text-slate-400 font-medium">{t("dashboard.waterUnit")}</span>
             </div>
-            <p className="text-[10px] text-blue-500 font-semibold mt-1">Cible : 2.50 L</p>
+            <p className="text-[10px] text-blue-500 font-semibold mt-1">{t("dashboard.waterTarget")}</p>
           </div>
         </div>
 
         {/* Sommeil */}
         <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sommeil</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t("dashboard.sleep")}</span>
             <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
               <Moon className="w-4 h-4" />
             </div>
@@ -313,16 +314,16 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
           <div className="mt-4">
             <div className="flex items-baseline space-x-1">
               <span className="text-2xl font-bold font-sans text-[#064E3B]">{currentSleep}</span>
-              <span className="text-xs text-slate-400 font-medium">heures</span>
+              <span className="text-xs text-slate-400 font-medium">{t("dashboard.sleepUnit")}</span>
             </div>
-            <p className="text-[10px] text-indigo-500 font-medium mt-1">Qualité : Excellente</p>
+            <p className="text-[10px] text-indigo-500 font-medium mt-1">{t("dashboard.sleepQuality")}</p>
           </div>
         </div>
 
         {/* Activité Sportive */}
         <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Activité</span>
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{t("dashboard.activity")}</span>
             <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
               <Flame className="w-4 h-4" />
             </div>
@@ -330,17 +331,16 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
           <div className="mt-4">
             <div className="flex items-baseline space-x-1">
               <span className="text-2xl font-bold font-sans text-[#064E3B]">{currentActivity}</span>
-              <span className="text-xs text-slate-400 font-medium">min</span>
+              <span className="text-xs text-slate-400 font-medium">{t("dashboard.activityUnit")}</span>
             </div>
-            <p className="text-[10px] text-amber-600 font-medium mt-1">Cible : 30 min/j</p>
+            <p className="text-[10px] text-amber-600 font-medium mt-1">{t("dashboard.activityTarget")}</p>
           </div>
         </div>
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {renderSVGChart(weightTrend, trendLabels, "emerald", "#10b981", "#10b981", "Évolution du Poids", "kg")}
-        {renderSVGChart(systolicTrend, trendLabels, "blue", "#3b82f6", "#3b82f6", "Tension Artérielle (Systolique)", "mmHg")}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">          {renderSVGChart(weightTrend, trendLabels, "emerald", "#10b981", "#10b981", t("dashboard.weightChart"), "kg")}
+        {renderSVGChart(systolicTrend, trendLabels, "blue", "#3b82f6", "#3b82f6", t("dashboard.bpChart"), "mmHg")}
       </div>
 
       {/* Wellness Insight Panel & Mini Tracker */}
@@ -351,13 +351,11 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
             <Heart className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-sans font-bold text-[#064E3B] text-lg">Conseil Santé Intelligent du Jour</h3>
-            <p className="text-slate-500 text-sm mt-1.5 leading-relaxed">
-              Vos statistiques de sommeil et d'activité physique indiquent un excellent équilibre cardiovasculaire. Conservez un apport hydrique d'au moins 2.5 litres aujourd'hui, agrémenté d'une infusion de gingembre ou de romarin pour optimiser vos niveaux d'énergie naturelle.
-            </p>
+            <h3 className="font-sans font-bold text-[#064E3B] text-lg">{t("dashboard.tipTitle")}</h3>
+            <p className="text-slate-500 text-sm mt-1.5 leading-relaxed">{t("dashboard.tipDesc")}</p>
             <div className="flex items-center space-x-2 mt-4 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 w-fit">
               <CheckCircle className="w-3.5 h-3.5 text-[#10B981]" />
-              <span>Généré par l'IA CEan'sCare</span>
+              <span>{t("dashboard.tipBadge")}</span>
             </div>
           </div>
         </div>
@@ -365,28 +363,28 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
         {/* Quick Check list checklist */}
         <div className="bg-white border border-slate-100 p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
           <div>
-            <h4 className="font-sans font-bold text-[#064E3B] text-base mb-3">Routine de Bien-être</h4>
+            <h4 className="font-sans font-bold text-[#064E3B] text-base mb-3">{t("dashboard.routineTitle")}</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-sm text-slate-600">
                 <input type="checkbox" defaultChecked className="w-4 h-4 accent-[#064E3B] rounded" />
-                <span className="line-through text-slate-400">Tension prise le matin</span>
+                <span className="line-through text-slate-400">{t("dashboard.routineMorningBP")}</span>
               </div>
               <div className="flex items-center space-x-3 text-sm text-slate-600">
                 <input type="checkbox" defaultChecked className="w-4 h-4 accent-[#064E3B] rounded" />
-                <span className="line-through text-slate-400">Sommeil enregistré</span>
+                <span className="line-through text-slate-400">{t("dashboard.routineSleep")}</span>
               </div>
               <div className="flex items-center space-x-3 text-sm text-slate-600">
                 <input type="checkbox" className="w-4 h-4 accent-[#064E3B] rounded" />
-                <span>Boire 2.5 L d'eau pure</span>
+                <span>{t("dashboard.routineWater")}</span>
               </div>
               <div className="flex items-center space-x-3 text-sm text-slate-600">
                 <input type="checkbox" className="w-4 h-4 accent-[#064E3B] rounded" />
-                <span>30 min de marche active ou méditation</span>
+                <span>{t("dashboard.routineWalk")}</span>
               </div>
             </div>
           </div>
           <div className="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center text-xs text-slate-400">
-            <span>Complété à 50%</span>
+            <span>{t("dashboard.routineProgress", { percent: 50 })}</span>
             <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
               <div className="w-1/2 h-full bg-[#10B981] rounded-full"></div>
             </div>
@@ -400,8 +398,8 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
           <div className="bg-white rounded-3xl shadow-xl w-full max-w-lg overflow-hidden animate-scale-up border border-slate-100">
             <div className="bg-[#064E3B] p-6 text-white flex justify-between items-center">
               <div>
-                <h3 className="font-sans font-bold text-xl">Saisie de Paramètres</h3>
-                <p className="text-emerald-100/80 text-xs mt-1">Mettez à jour vos données physiologiques quotidiennes</p>
+                <h3 className="font-sans font-bold text-xl">{t("dashboard.logModalTitle")}</h3>
+                <p className="text-emerald-100/80 text-xs mt-1">{t("dashboard.logModalDesc")}</p>
               </div>
               <button 
                 id="btn-close-log-modal"
@@ -415,7 +413,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
             <form onSubmit={handleSubmitLog} className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Poids (kg)</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logWeight")}</label>
                   <input
                     type="number"
                     step="0.1"
@@ -426,7 +424,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Pulsations (bpm)</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logHeartRate")}</label>
                   <input
                     type="number"
                     required
@@ -439,7 +437,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Tension Systolique (Max)</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logSystolic")}</label>
                   <input
                     type="number"
                     required
@@ -449,7 +447,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Tension Diastolique (Min)</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logDiastolic")}</label>
                   <input
                     type="number"
                     required
@@ -462,7 +460,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Eau (ml)</label>
+                  <label className="block text-[10px] font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logWater")}</label>
                   <input
                     type="number"
                     required
@@ -472,7 +470,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Sommeil (h)</label>
+                  <label className="block text-[10px] font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logSleep")}</label>
                   <input
                     type="number"
                     step="0.5"
@@ -483,7 +481,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-semibold text-slate-500 uppercase mb-1">Sport (min)</label>
+                  <label className="block text-[10px] font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logActivity")}</label>
                   <input
                     type="number"
                     required
@@ -495,7 +493,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">Date</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase mb-1">{t("dashboard.logDate")}</label>
                 <input
                   type="date"
                   required
@@ -512,14 +510,14 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
                   onClick={() => setShowLogModal(false)}
                   className="w-1/2 py-3 border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50"
                 >
-                  Annuler
+                  {t("common.cancel")}
                 </button>
                 <button
                   type="submit"
                   id="btn-save-log"
                   className="w-1/2 py-3 bg-[#064E3B] hover:bg-[#043427] text-white font-bold text-sm rounded-xl transition-all"
                 >
-                  Sauvegarder
+                  {t("common.save")}
                 </button>
               </div>
             </form>

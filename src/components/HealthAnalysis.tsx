@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation, Trans } from "react-i18next";
 import { 
   Heart, 
   Activity, 
@@ -31,6 +32,7 @@ export default function HealthAnalysis({
   onRunAnalysis, 
   isAnalyzing 
 }: HealthAnalysisProps) {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
   const [localProfile, setLocalProfile] = useState<UserProfile>({ ...profile });
 
@@ -69,8 +71,8 @@ export default function HealthAnalysis({
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-6">
           <div className="flex justify-between items-center pb-4 border-b border-slate-100">
             <div>
-              <h3 className="font-sans font-bold text-lg text-[#064E3B]">Profil de Santé</h3>
-              <p className="text-slate-400 text-xs">Vos paramètres physiques</p>
+              <h3 className="font-sans font-bold text-lg text-[#064E3B]">{t("analysis.profileTitle")}</h3>
+              <p className="text-slate-400 text-xs">{t("analysis.profileSubtitle")}</p>
             </div>
             {!editing && (
               <button
@@ -78,7 +80,7 @@ export default function HealthAnalysis({
                 onClick={() => setEditing(true)}
                 className="text-xs font-semibold text-[#064E3B] hover:text-[#043427] px-3 py-1.5 bg-[#064E3B]/10 hover:bg-[#064E3B]/15 rounded-lg transition-all"
               >
-                Modifier
+                {t("analysis.editButton")}
               </button>
             )}
           </div>
@@ -87,7 +89,7 @@ export default function HealthAnalysis({
             <form onSubmit={handleSaveProfile} className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Âge</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.age")}</label>
                   <input
                     type="number"
                     value={localProfile.age}
@@ -96,22 +98,22 @@ export default function HealthAnalysis({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Genre</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.gender")}</label>
                   <select
                     value={localProfile.gender}
                     onChange={(e) => setLocalProfile({ ...localProfile, gender: e.target.value })}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   >
-                    <option value="Femme">Femme</option>
-                    <option value="Homme">Homme</option>
-                    <option value="Autre">Autre</option>
+                    <option value="Femme">{t("analysis.genderF")}</option>
+                    <option value="Homme">{t("analysis.genderM")}</option>
+                    <option value="Autre">{t("analysis.genderO")}</option>
                   </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Taille (cm)</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.height")}</label>
                   <input
                     type="number"
                     value={localProfile.height}
@@ -120,7 +122,7 @@ export default function HealthAnalysis({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Poids (kg)</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.weight")}</label>
                   <input
                     type="number"
                     value={localProfile.weight}
@@ -132,7 +134,7 @@ export default function HealthAnalysis({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tension Max (Sys)</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.systolic")}</label>
                   <input
                     type="number"
                     value={localProfile.systolic}
@@ -141,7 +143,7 @@ export default function HealthAnalysis({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tension Min (Dia)</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.diastolic")}</label>
                   <input
                     type="number"
                     value={localProfile.diastolic}
@@ -151,50 +153,46 @@ export default function HealthAnalysis({
                 </div>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Préférence Alimentaire</label>
+              <div>                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.diet")}</label>
                 <select
                   value={localProfile.dietPreference}
                   onChange={(e) => setLocalProfile({ ...localProfile, dietPreference: e.target.value as any })}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
-                  <option value="Omnivore">Omnivore</option>
-                  <option value="Végétarien">Végétarien</option>
-                  <option value="Végétalien">Végétalien</option>
-                  <option value="Sans Gluten">Sans Gluten</option>
-                  <option value="Kéto">Régime Kéto</option>
+                  <option value="Omnivore">{t("analysis.dietOmnivore")}</option>
+                  <option value="Végétarien">{t("analysis.dietVegetarian")}</option>
+                  <option value="Végétalien">{t("analysis.dietVegan")}</option>
+                  <option value="Sans Gluten">{t("analysis.dietGlutenFree")}</option>
+                  <option value="Kéto">{t("analysis.dietKeto")}</option>
                 </select>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Activité Physique</label>
+              <div>                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.activity")}</label>
                 <select
                   value={localProfile.activeLevel}
                   onChange={(e) => setLocalProfile({ ...localProfile, activeLevel: e.target.value as any })}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
-                  <option value="Sédentaire">Sédentaire</option>
-                  <option value="Modéré">Activité modérée (marche, yoga)</option>
-                  <option value="Très Actif">Activité intense (sport régulier)</option>
+                  <option value="Sédentaire">{t("analysis.activitySedentary")}</option>
+                  <option value="Modéré">{t("analysis.activityModerate")}</option>
+                  <option value="Très Actif">{t("analysis.activityActive")}</option>
                 </select>
               </div>
 
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Maladies / Antécédents</label>
+              <div>                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.conditions")}</label>
                 <input
                   type="text"
-                  placeholder="ex: Tension élevée, Asthme..."
+                  placeholder={t("analysis.conditionsPlaceholder")}
                   value={localProfile.chronicConditions}
                   onChange={(e) => setLocalProfile({ ...localProfile, chronicConditions: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Symptômes actuels</label>
+              <div>                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("analysis.symptoms")}</label>
                 <textarea
                   rows={2}
-                  placeholder="ex: Fatigue chronique, maux de gorge..."
+                  placeholder={t("analysis.symptomsPlaceholder")}
                   value={localProfile.symptoms}
                   onChange={(e) => setLocalProfile({ ...localProfile, symptoms: e.target.value })}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -211,14 +209,14 @@ export default function HealthAnalysis({
                   }}
                   className="w-1/2 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-500 hover:bg-slate-50"
                 >
-                  Annuler
+                  {t("common.cancel")}
                 </button>
                 <button
                   type="submit"
                   id="btn-save-profile"
                   className="w-1/2 py-2 bg-[#064E3B] hover:bg-[#043427] text-white font-semibold text-xs rounded-xl shadow-sm"
                 >
-                  Appliquer
+                  {t("common.apply")}
                 </button>
               </div>
             </form>
@@ -226,34 +224,34 @@ export default function HealthAnalysis({
             <div className="space-y-4 text-sm">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-slate-400 text-xs">Genre / Âge</span>
-                  <p className="font-semibold text-slate-800">{profile.gender}, {profile.age} ans</p>
+                  <span className="text-slate-400 text-xs">{t("analysis.viewGenderAge")}</span>
+                  <p className="font-semibold text-slate-800">{profile.gender}, {profile.age} {t("common.years")}</p>
                 </div>
                 <div>
-                  <span className="text-slate-400 text-xs">Mensurations</span>
+                  <span className="text-slate-400 text-xs">{t("analysis.viewMeasurements")}</span>
                   <p className="font-semibold text-slate-800">{profile.height} cm, {profile.weight} kg</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-slate-400 text-xs">Tension de base</span>
+                  <span className="text-slate-400 text-xs">{t("analysis.viewBP")}</span>
                   <p className="font-semibold text-slate-800">{profile.systolic}/{profile.diastolic} mmHg</p>
                 </div>
                 <div>
-                  <span className="text-slate-400 text-xs">Alimentation</span>
+                  <span className="text-slate-400 text-xs">{t("analysis.viewDiet")}</span>
                   <p className="font-semibold text-slate-800">{profile.dietPreference}</p>
                 </div>
               </div>
 
               <div className="pt-2 border-t border-slate-100">
-                <span className="text-slate-400 text-xs">Pathologies déclarées</span>
-                <p className="font-semibold text-slate-800 mt-0.5">{profile.chronicConditions || "Aucune maladie déclarée"}</p>
+                <span className="text-slate-400 text-xs">{t("analysis.viewConditions")}</span>
+                <p className="font-semibold text-slate-800 mt-0.5">{profile.chronicConditions || t("analysis.viewNoConditions")}</p>
               </div>
 
               <div className="pt-2">
-                <span className="text-slate-400 text-xs">Symptômes décrits</span>
-                <p className="font-medium text-slate-700 mt-0.5 italic">{profile.symptoms ? `"${profile.symptoms}"` : "Aucun symptôme actuel"}</p>
+                <span className="text-slate-400 text-xs">{t("analysis.viewSymptoms")}</span>
+                <p className="font-medium text-slate-700 mt-0.5 italic">{profile.symptoms ? `"${profile.symptoms}"` : t("analysis.viewNoSymptoms")}</p>
               </div>
 
               <div className="pt-4">
@@ -266,12 +264,12 @@ export default function HealthAnalysis({
                   {isAnalyzing ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Analyse IA en cours...</span>
+                      <span>{t("analysis.analyzing")}</span>
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4 text-yellow-300" />
-                      <span>Lancer l'Analyse Médicale IA</span>
+                      <span>{t("analysis.launchAnalysis")}</span>
                     </>
                   )}
                 </button>
@@ -285,10 +283,10 @@ export default function HealthAnalysis({
           <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
             <h3 className="font-sans font-bold text-lg text-[#064E3B] flex items-center space-x-2">
               <Dna className="w-5 h-5 text-[#10B981]" />
-              <span>Comment fonctionne l'analyse CEan'sCare ?</span>
+              <span>{t("analysis.howItWorksTitle")}</span>
             </h3>
             <p className="text-slate-500 text-sm mt-3 leading-relaxed">
-              CEan'sCare combine la puissance du modèle de pointe de Google, <strong>Gemini 3.5 Flash</strong>, avec l'expertise combinée de la physiologie humaine, de la nutrition clinique et de la phytothérapie (médecine par les plantes).
+              <Trans i18nKey="analysis.howItWorksDesc" />
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
@@ -297,8 +295,8 @@ export default function HealthAnalysis({
                   <Stethoscope className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-700">Options Thérapeutiques</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Alternatives allopathiques, homéopathiques et phytothérapeutiques</p>
+                  <h4 className="text-xs font-bold text-slate-700">{t("analysis.therapyOptions")}</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">{t("analysis.therapyDesc")}</p>
                 </div>
               </div>
 
@@ -307,8 +305,8 @@ export default function HealthAnalysis({
                   <Leaf className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-700">Médecine Douce</h4>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Recettes de tisanes, plantes adaptogènes et régulation métabolique</p>
+                  <h4 className="text-xs font-bold text-slate-700">{t("analysis.gentleMedicine")}</h4>
+                  <p className="text-[11px] text-slate-400 mt-0.5">{t("analysis.gentleDesc")}</p>
                 </div>
               </div>
             </div>
@@ -319,12 +317,12 @@ export default function HealthAnalysis({
             <div className="flex-1 bg-[#064E3B] text-white p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-4 shadow-xl relative overflow-hidden">
               <div className="relative z-10">
                 <Loader2 className="w-12 h-12 text-[#10B981] animate-spin mx-auto mb-4" />
-                <h4 className="font-sans font-bold text-lg text-emerald-300">Séquençage des données physiologiques...</h4>
+                <h4 className="font-sans font-bold text-lg text-emerald-300">{t("analysis.analyzingTitle")}</h4>
                 <div className="max-w-md mx-auto space-y-1 text-xs text-slate-300 mt-3 font-mono">
-                  <p className="animate-pulse">▶ Calcul de l'Indice de Masse Corporelle (IMC)... OK</p>
-                  <p className="animate-pulse delay-75">▶ Analyse systolique / diastolique... OK</p>
-                  <p className="animate-pulse delay-150">▶ Corrélation avec la base de phytothérapie... EN COURS</p>
-                  <p className="animate-pulse delay-300">▶ Structuration des options thérapeutiques personnalisées... EN COURS</p>
+                  <p className="animate-pulse">{t("analysis.analyzingBMI")}</p>
+                  <p className="animate-pulse delay-75">{t("analysis.analyzingBP")}</p>
+                  <p className="animate-pulse delay-150">{t("analysis.analyzingPhyto")}</p>
+                  <p className="animate-pulse delay-300">{t("analysis.analyzingTherapy")}</p>
                 </div>
               </div>
               <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/10 blur-2xl pointer-events-none rounded-full"></div>
@@ -334,10 +332,8 @@ export default function HealthAnalysis({
           {!isAnalyzing && !analysisResult && (
             <div className="flex-1 border-2 border-dashed border-slate-200 p-8 rounded-3xl flex flex-col items-center justify-center text-center text-slate-400">
               <ShieldAlert className="w-12 h-12 text-slate-300 mb-3" />
-              <p className="font-sans font-semibold text-slate-500">Aucun rapport d'analyse actif</p>
-              <p className="text-xs max-w-sm mt-1">
-                Remplissez vos paramètres à gauche et cliquez sur le bouton pour générer votre bilan de santé personnalisé par IA.
-              </p>
+              <p className="font-sans font-semibold text-slate-500">{t("analysis.noReport")}</p>
+              <p className="text-xs max-w-sm mt-1">{t("analysis.noReportDesc")}</p>
             </div>
           )}
 
@@ -345,7 +341,7 @@ export default function HealthAnalysis({
             <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-3xl flex items-start space-x-3 text-emerald-800 text-xs leading-relaxed">
               <AlertTriangle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold uppercase tracking-wider block text-[10px] text-emerald-600 mb-1">Clause de non-responsabilité médicale</span>
+                <span className="font-bold uppercase tracking-wider block text-[10px] text-emerald-600 mb-1">{t("analysis.disclaimerTitle")}</span>
                 {analysisResult.disclaimer}
               </div>
             </div>
@@ -363,10 +359,10 @@ export default function HealthAnalysis({
             {/* BMI gauge */}
             <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Indice de Masse Corporelle (IMC)</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">{t("analysis.bmiTitle")}</span>
                 <div className="flex items-baseline space-x-2">
                   <span className="text-4xl font-extrabold font-sans text-[#064E3B]">{analysisResult.bmi}</span>
-                  <span className="text-xs text-slate-400 font-bold">kg/m²</span>
+                  <span className="text-xs text-slate-400 font-bold">{t("analysis.bmiUnit")}</span>
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-slate-50">
@@ -380,26 +376,26 @@ export default function HealthAnalysis({
             {/* Blood Pressure evaluation */}
             <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] md:col-span-3 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Bilan des Constantes Vitales</span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">{t("analysis.vitalsTitle")}</span>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                   <div>
                     <h5 className="text-xs font-bold text-slate-600 flex items-center space-x-1">
                       <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                      <span>Tension Artérielle</span>
+                      <span>{t("analysis.bpLabel")}</span>
                     </h5>
                     <p className="text-xs text-slate-500 mt-1">{analysisResult.constantsAnalysis.bloodPressureText}</p>
                   </div>
                   <div>
                     <h5 className="text-xs font-bold text-slate-600 flex items-center space-x-1">
                       <span className="w-2 h-2 rounded-full bg-rose-500"></span>
-                      <span>Rythme Cardiaque</span>
+                      <span>{t("analysis.hrLabel")}</span>
                     </h5>
                     <p className="text-xs text-slate-500 mt-1">{analysisResult.constantsAnalysis.heartRateText}</p>
                   </div>
                 </div>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Synthèse Globale</span>
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{t("analysis.globalSummary")}</span>
                 <p className="text-sm font-medium text-slate-700 mt-1 leading-relaxed">{analysisResult.generalAssessment}</p>
               </div>
             </div>
@@ -409,10 +405,10 @@ export default function HealthAnalysis({
           <div className="space-y-4">
             <h3 className="font-sans font-bold text-xl text-[#064E3B] flex items-center space-x-2">
               <Stethoscope className="w-5 h-5 text-[#064E3B]" />
-              <span>Options Thérapeutiques & Pistes de Traitement</span>
+              <span>{t("analysis.therapySectionTitle")}</span>
             </h3>
             <p className="text-slate-400 text-xs">
-              Découvrez des approches intégratives unissant médecine moderne et savoirs thérapeutiques naturels pour soutenir l'auto-guérison de votre organisme.
+              {t("analysis.therapySectionDesc")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
@@ -426,7 +422,7 @@ export default function HealthAnalysis({
                     <p className="text-slate-500 text-sm mt-2 leading-relaxed">{opt.description}</p>
                   </div>
                   <div className="mt-4 pt-3 border-t border-slate-50 text-xs text-slate-400 italic">
-                    <strong>Contexte scientifique :</strong> {opt.scientificContext}
+                    <strong>{t("analysis.scientificContext")}</strong> {opt.scientificContext}
                   </div>
                 </div>
               ))}
@@ -438,7 +434,7 @@ export default function HealthAnalysis({
             
             {/* Advice Tips */}
             <div className="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-4">
-              <h4 className="font-sans font-bold text-[#064E3B] text-base">Conseils Pratiques Personnalisés</h4>
+              <h4 className="font-sans font-bold text-[#064E3B] text-base">{t("analysis.tipsTitle")}</h4>
               <div className="space-y-4">
                 {analysisResult.personalizedTips.map((tip, i) => (
                   <div key={i} className="flex items-start space-x-3 p-3 rounded-2xl bg-slate-50 border border-slate-100">
@@ -449,7 +445,7 @@ export default function HealthAnalysis({
                       <div className="flex flex-wrap items-center gap-2">
                         <h5 className="text-sm font-bold text-slate-800">{tip.title}</h5>
                         <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded border ${getImportanceColor(tip.importance)}`}>
-                          Priorité {tip.importance}
+                          {t("analysis.priority", { level: tip.importance })}
                         </span>
                       </div>
                       <p className="text-slate-500 text-xs mt-1 leading-relaxed">{tip.description}</p>
@@ -463,13 +459,13 @@ export default function HealthAnalysis({
             <div className="bg-[#064E3B] text-white p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between relative overflow-hidden">
               <div className="relative z-10">
                 <Utensils className="w-8 h-8 text-emerald-300 mb-4" />
-                <h4 className="font-sans font-bold text-lg text-emerald-300">Ajustements Nutritionnels</h4>
+                <h4 className="font-sans font-bold text-lg text-emerald-300">{t("analysis.nutritionTitle")}</h4>
                 <p className="text-emerald-100/90 text-sm mt-3 leading-relaxed">
                   {analysisResult.dietaryFocus}
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-white/10 text-xs text-emerald-200 font-semibold flex items-center space-x-1 relative z-10">
-                <span>Consulter vos menus suggérés</span>
+                <span>{t("analysis.viewMenus")}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </div>
               <div className="absolute -right-16 -bottom-16 w-44 h-44 rounded-full bg-emerald-500/10 blur-2xl"></div>

@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { 
   Send, 
   Bot, 
@@ -25,6 +26,7 @@ interface AIConsultationProps {
 export default function AIConsultation({ 
   profile,
 }: AIConsultationProps) {
+  const { t } = useTranslation();
   const [inputText, setInputText] = useState("");
   const [localMessages, setLocalMessages] = useState<ChatMessage[]>(() => {
     try {
@@ -47,9 +49,22 @@ export default function AIConsultation({
   });
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
+  const [copiedCodeBlock, setCopiedCodeBlock] = useState<string | null>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const isStreamingRef = useRef(false);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleCopy = useCallback(async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedCodeBlock(code);
+      if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+      copiedTimeoutRef.current = setTimeout(() => setCopiedCodeBlock(null), 2000);
+    } catch {
+      // Clipboard API may fail in non-secure contexts
+    }
+  }, []);
 
   // Persist messages to localStorage (skip while streaming to avoid partial saves)
   useEffect(() => {
@@ -62,15 +77,16 @@ export default function AIConsultation({
   useEffect(() => {
     return () => {
       abortControllerRef.current?.abort();
+      if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
     };
   }, []);
 
   // Suggestions for user
   const suggestions = [
-    "Comment réduire l'hypertension naturellement ?",
-    "Tisanes efficaces pour améliorer le sommeil profond",
-    "Solutions saines contre la fatigue chronique l'après-midi",
-    "Quels aliments éviter pour l'estomac sensible ?",
+    t("consultation.suggestion1"),
+    t("consultation.suggestion2"),
+    t("consultation.suggestion3"),
+    t("consultation.suggestion4"),
   ];
 
   // Build system prompt from user profile
@@ -286,15 +302,15 @@ PROFIL DE L'UTILISATEUR:
             <Bot className="w-5 h-5 text-emerald-300 animate-pulse" />
           </div>
           <div>
-            <h3 className="font-sans font-bold text-sm sm:text-base">Consultation Assistée par IA</h3>
+            <h3 className="font-sans font-bold text-sm sm:text-base">{t("consultation.title")}</h3>
             <span className="text-[10px] text-emerald-300 font-semibold flex items-center space-x-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block mr-1"></span>
-              <span>Expert Bien-être CEan'sCare en Ligne</span>
+              <span>{t("consultation.subtitle")}</span>
             </span>
           </div>
         </div>
         <div className="text-right text-[10px] text-emerald-100 font-mono hidden sm:block">
-          <span>Temps de réponse moyen : &lt; 5s</span>
+          <span>{t("consultation.responseTime")}</span>
         </div>
       </div>
 
@@ -305,8 +321,8 @@ PROFIL DE L'UTILISATEUR:
         <div className="bg-white p-4 rounded-2xl border border-slate-100 max-w-2xl mx-auto flex items-start space-x-3 text-slate-500 text-xs shadow-sm">
           <HelpCircle className="w-5 h-5 text-[#064E3B] shrink-0 mt-0.5" />
           <div>
-            <strong className="text-slate-800 font-bold block mb-1">Comment poser vos questions ?</strong>
-            Vous pouvez interroger l'IA sur l'alimentation saine, la régulation naturelle de maladies chroniques (tension, diabète), ou demander des tisanes curatives. Pour votre sécurité, veuillez utiliser ces conseils en complément de votre parcours de santé conventionnel.
+            <strong className="text-slate-800 font-bold block mb-1">{t("consultation.helpTitle")}</strong>
+            {t("consultation.helpDesc")}
           </div>
         </div>
 
@@ -361,10 +377,10 @@ PROFIL DE L'UTILISATEUR:
                                 <span>{lang}</span>
                                 <button
                                   type="button"
-                                  onClick={() => navigator.clipboard.writeText(codeString)}
-                                  className="hover:text-white transition-colors cursor-pointer"
+                                  onClick={() => handleCopy(codeString)}
+                                  className={`hover:text-white transition-colors cursor-pointer text-[10px] ${copiedCodeBlock === codeString ? "text-emerald-400" : ""}`}
                                 >
-                                  Copier
+                                  {copiedCodeBlock === codeString ? t("common.copied") : t("common.copy")}
                                 </button>
                               </div>
                               {match ? (
@@ -422,7 +438,7 @@ PROFIL DE L'UTILISATEUR:
             </div>
             <div className="bg-white text-slate-500 border border-slate-100 p-4 rounded-2xl rounded-bl-none text-xs flex items-center space-x-2 shadow-sm">
               <Loader2 className="w-3.5 h-3.5 animate-spin text-[#064E3B]" />
-              <span>L'IA formule votre réponse thérapeutique...</span>
+              <span>{t("consultation.waitingMessage")}</span>
             </div>
           </div>
         )}
@@ -433,7 +449,7 @@ PROFIL DE L'UTILISATEUR:
       {/* Suggested prompts section */}
       {localMessages.length === 1 && !isStreaming && (
         <div className="px-6 py-3 bg-slate-50 border-t border-slate-100">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Suggestions de consultation</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">{t("consultation.suggestionsTitle")}</span>
           <div className="flex flex-wrap gap-2">
             {suggestions.map((sug, i) => (
               <button
@@ -455,7 +471,7 @@ PROFIL DE L'UTILISATEUR:
           type="text"
           required
           disabled={isStreaming}
-          placeholder="Posez votre question sur votre santé ou alimentation ici..."
+          placeholder={t("consultation.placeholder")}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#064E3B]"

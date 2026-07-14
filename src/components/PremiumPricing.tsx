@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { 
   Check, 
   Award, 
@@ -20,6 +21,7 @@ interface PremiumPricingProps {
 }
 
 export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPricingProps) {
+  const { t } = useTranslation();
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [showCheckout, setShowCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,7 +34,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
   const [cardCvv, setCardCvv] = useState("");
 
   const price = billingCycle === "monthly" ? 14.99 : 8.25; // 99/year
-  const savingsText = billingCycle === "yearly" ? "Facturé 99 €/an (Économisez 45%)" : "Facturé mensuellement. Annulable à tout moment.";
+  const savingsText = billingCycle === "yearly" ? t("premium.billedYearly", { amount: 99 }) : t("premium.billedMonthly");
 
   const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,12 +49,12 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
   };
 
   const premiumFeatures = [
-    { title: "Analyses de Santé par IA Illimitées", desc: "Évaluez vos biométriques et symptômes sans aucune limite journalière." },
-    { title: "Options de Guérison Avancées & Plantes", desc: "Accès complet aux plans de phytothérapie, herboristerie, et remèdes naturels." },
-    { title: "Plans Alimentaires Hebdomadaires Personnalisés", desc: "Menus diététiques sur-mesure régénérateurs avec calcul calorique exact." },
-    { title: "Assistant IA Ultra-Rapide (Gemini 3.5 Pro)", desc: "Conversations cliniques enrichies avec un modèle médical haute performance." },
-    { title: "Codes Avantages Partenaires de Santé", desc: "Profitez de réductions cumulables de 10% à 20% chez nos herboristeries et nutritionnistes." },
-    { title: "Expérience Sans Publicité", desc: "Concentrez-vous entièrement sur votre parcours de santé et de bien-être." }
+    { title: t("premium.features.analysis"), desc: t("premium.features.analysisDesc") },
+    { title: t("premium.features.healing"), desc: t("premium.features.healingDesc") },
+    { title: t("premium.features.meals"), desc: t("premium.features.mealsDesc") },
+    { title: t("premium.features.ai"), desc: t("premium.features.aiDesc") },
+    { title: t("premium.features.partners"), desc: t("premium.features.partnersDesc") },
+    { title: t("premium.features.ads"), desc: t("premium.features.adsDesc") }
   ];
 
   return (
@@ -67,16 +69,16 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
               onClick={onClose}
               className="absolute top-4 right-4 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-xs transition cursor-pointer"
             >
-              Retour à l'appli
+              {t("premium.backToApp")}
             </button>
             
             <div className="mx-auto w-12 h-12 bg-white/10 border border-white/20 text-white rounded-2xl flex items-center justify-center shadow-sm mb-4">
               <Award className="w-7 h-7 text-emerald-300" />
             </div>
 
-            <h3 className="font-sans font-extrabold text-2xl sm:text-3xl">CEan'sCare Premium</h3>
+            <h3 className="font-sans font-extrabold text-2xl sm:text-3xl">{t("premium.title")}</h3>
             <p className="text-emerald-200/90 text-sm mt-2 max-w-md mx-auto">
-              Activez le plein potentiel de l'intelligence artificielle pour optimiser votre santé, votre alimentation et vos traitements de bien-être.
+              {t("premium.desc")}
             </p>
 
             {/* Toggle monthly vs yearly */}
@@ -89,7 +91,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                     billingCycle === "monthly" ? "bg-[#10B981] text-white shadow-sm" : "text-slate-300 hover:text-white"
                   }`}
                 >
-                  Mensuel
+                  {t("premium.monthly")}
                 </button>
                 <button
                   id="btn-billing-yearly"
@@ -98,9 +100,9 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                     billingCycle === "yearly" ? "bg-[#10B981] text-white shadow-sm" : "text-slate-300 hover:text-white"
                   }`}
                 >
-                  <span>Annuel</span>
+                  <span>{t("premium.yearly")}</span>
                   <span className="bg-amber-400 text-slate-950 text-[8px] font-extrabold px-1 rounded uppercase">
-                    -45%
+                    {t("premium.discount")}
                   </span>
                 </button>
               </div>
@@ -112,7 +114,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
             
             {/* Left side: Premium value list */}
             <div className="md:col-span-3 space-y-4">
-              <h4 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Inclus dans la formule Premium</h4>
+              <h4 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">{t("premium.included")}</h4>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {premiumFeatures.map((feat, i) => (
@@ -132,11 +134,11 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
             {/* Right side: Subscription Call-to-action */}
             <div className="md:col-span-2 bg-slate-50 p-6 rounded-3xl border border-slate-100 flex flex-col justify-between text-center">
               <div>
-                <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest block mb-2">Formule d'abonnement</span>
+                <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest block mb-2">{t("premium.subscription")}</span>
                 
                 <div className="flex items-baseline justify-center">
                   <span className="text-4xl font-extrabold font-sans text-[#064E3B]">{price}</span>
-                  <span className="text-lg font-bold text-slate-400 ml-1">€ / mois</span>
+                  <span className="text-lg font-bold text-slate-400 ml-1">{t("premium.perMonth")}</span>
                 </div>
                 <p className="text-[11px] text-slate-400 mt-2 font-medium leading-relaxed">
                   {savingsText}
@@ -144,7 +146,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
 
                 <div className="mt-4 p-3 bg-white border border-slate-200/50 rounded-xl text-left flex items-start space-x-2 text-[10px] text-slate-500">
                   <Info className="w-4 h-4 text-[#064E3B] shrink-0 font-bold" />
-                  <span>Votre paiement soutient directement la recherche en médecine douce intégrative et maintient l'accès gratuit pour les personnes vulnérables.</span>
+                  <span>{t("premium.supportText")}</span>
                 </div>
               </div>
 
@@ -154,14 +156,14 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   onClick={() => setShowCheckout(true)}
                   className="w-full py-3 bg-[#064E3B] hover:bg-[#043427] text-white font-bold text-sm rounded-xl shadow-sm transition cursor-pointer"
                 >
-                  Choisir cette formule
+                  {t("premium.choosePlan")}
                 </button>
                 <button
                   id="btn-cancel-pricing-box"
                   onClick={onClose}
                   className="text-xs font-semibold text-slate-400 hover:text-slate-600 block mx-auto transition cursor-pointer"
                 >
-                  Continuer en mode découverte
+                  {t("premium.continueFree")}
                 </button>
               </div>
             </div>
@@ -178,21 +180,19 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                 <ShieldCheck className="w-10 h-10" />
               </div>
               <div>
-                <h4 className="font-sans font-bold text-xl text-slate-800">Félicitations Camille !</h4>
-                <p className="text-slate-500 text-xs mt-2 leading-relaxed">
-                  Votre abonnement Premium à CEan'sCare a été activé avec succès. Vous bénéficiez désormais de consultations IA illimitées, de l'expertise phytothérapie complète et des avantages de notre réseau de santé.
-                </p>
+                <h4 className="font-sans font-bold text-xl text-slate-800">{t("premium.congrats", { name: "Camille" })}</h4>
+                <p className="text-slate-500 text-xs mt-2 leading-relaxed">{t("premium.congratsDesc")}</p>
               </div>
               <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 text-[11px] font-semibold text-[#064E3B] flex items-center justify-center space-x-2">
                 <Zap className="w-3.5 h-3.5 animate-pulse" />
-                <span>Tous les privilèges Premium débloqués !</span>
+                <span>{t("premium.unlocked")}</span>
               </div>
               <button
                 id="btn-celebrate-done"
                 onClick={onClose}
                 className="w-full py-3 bg-[#064E3B] hover:bg-[#043427] text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
               >
-                Accéder à mes outils Premium
+                {t("premium.accessPremium")}
               </button>
             </div>
           ) : (
@@ -200,8 +200,8 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
             <form onSubmit={handleCheckoutSubmit} className="p-6 space-y-4">
               <div className="flex justify-between items-center pb-3 border-b border-slate-100">
                 <div>
-                  <h4 className="font-sans font-bold text-lg text-slate-800">Paiement Sécurisé</h4>
-                  <p className="text-slate-400 text-xs">Abonnement CEan'sCare Premium</p>
+                  <h4 className="font-sans font-bold text-lg text-slate-800">{t("premium.checkoutTitle")}</h4>
+                  <p className="text-slate-400 text-xs">{t("premium.checkoutSubtitle")}</p>
                 </div>
                 <button 
                   type="button"
@@ -215,12 +215,12 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
 
               {/* Price Tag in checkout */}
               <div className="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
-                <span className="text-xs font-bold text-slate-600">Total à payer</span>
-                <span className="font-mono text-base font-bold text-slate-800">{price} € / mois</span>
+                <span className="text-xs font-bold text-slate-600">{t("premium.total")}</span>
+                <span className="font-mono text-base font-bold text-slate-800">{price} {t("premium.perMonth")}</span>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Nom sur la Carte</label>
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("premium.cardName")}</label>
                 <input
                   type="text"
                   required
@@ -232,7 +232,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Numéro de Carte</label>
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("premium.cardNumber")}</label>
                 <div className="relative">
                   <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <input
@@ -249,7 +249,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">Expiration</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("premium.cardExpiry")}</label>
                   <input
                     type="text"
                     required
@@ -261,7 +261,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">CVV</label>
+                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("premium.cardCvv")}</label>
                   <input
                     type="password"
                     required
@@ -277,7 +277,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
               {/* Secure footer */}
               <div className="flex items-center space-x-1.5 text-[9px] text-slate-400 justify-center py-2 border-t border-slate-100">
                 <Lock className="w-3.5 h-3.5 text-[#064E3B]" />
-                <span>Transactions chiffrées SSL 256-bit par Stripe</span>
+                <span>{t("premium.secureFooter")}</span>
               </div>
 
               <div className="flex space-x-3 pt-2">
@@ -287,7 +287,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   onClick={() => setShowCheckout(false)}
                   className="w-1/2 py-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-500 cursor-pointer"
                 >
-                  Retour
+                  {t("common.back")}
                 </button>
                 <button
                   type="submit"
@@ -298,10 +298,10 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-3 h-3 animate-spin" />
-                      <span>Validation...</span>
+                      <span>{t("premium.validating")}</span>
                     </>
                   ) : (
-                    <span>Valider le paiement</span>
+                    <span>{t("premium.pay")}</span>
                   )}
                 </button>
               </div>

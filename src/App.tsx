@@ -1,12 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
+import { useTranslation } from "react-i18next";
 import { UserProfile, HealthAnalysisResult, MealPlanResult, HealthLog } from "./types";
 import Header from "./components/Header";
-import Dashboard from "./components/Dashboard";
-import HealthAnalysis from "./components/HealthAnalysis";
-import MealPlanner from "./components/MealPlanner";
-import AIConsultation from "./components/AIConsultation";
-import PartnersDirectory from "./components/PartnersDirectory";
-import PremiumPricing from "./components/PremiumPricing";
+
+// Lazy-loaded route components — they are split into separate chunks
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const HealthAnalysis = lazy(() => import("./components/HealthAnalysis"));
+const MealPlanner = lazy(() => import("./components/MealPlanner"));
+const AIConsultation = lazy(() => import("./components/AIConsultation"));
+const PartnersDirectory = lazy(() => import("./components/PartnersDirectory"));
+const PremiumPricing = lazy(() => import("./components/PremiumPricing"));
+
+const PageLoader = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center justify-center py-20">
+      <div className="flex flex-col items-center space-y-3">
+        <div className="w-8 h-8 border-2 border-[#064E3B] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs text-slate-400 font-medium">{t("common.loading")}</span>
+      </div>
+    </div>
+  );
+};
 
 // Backdated logs generator helper
 const generateInitialLogs = (): HealthLog[] => {
@@ -127,6 +142,7 @@ const getInitialMealPlan = (): MealPlanResult => {
 };
 
 export default function App() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [isPremium, setIsPremium] = useState<boolean>(() => {
     const saved = localStorage.getItem("ceans_premium_status");
@@ -290,66 +306,70 @@ export default function App() {
       />
 
       {/* Primary tab views content container */}
+
+
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        {activeTab === "dashboard" && (
-          <Dashboard 
-            logs={logs} 
-            onAddLog={handleAddLog}
-            profile={profile} 
-          />
-        )}
+        <Suspense fallback={<PageLoader />}>
+          {activeTab === "dashboard" && (
+            <Dashboard 
+              logs={logs} 
+              onAddLog={handleAddLog}
+              profile={profile} 
+            />
+          )}
 
-        {activeTab === "analysis" && (
-          <HealthAnalysis
-            profile={profile}
-            onUpdateProfile={setProfile}
-            analysisResult={analysisResult}
-            onRunAnalysis={handleRunAnalysis}
-            isAnalyzing={isAnalyzing}
-          />
-        )}
+          {activeTab === "analysis" && (
+            <HealthAnalysis
+              profile={profile}
+              onUpdateProfile={setProfile}
+              analysisResult={analysisResult}
+              onRunAnalysis={handleRunAnalysis}
+              isAnalyzing={isAnalyzing}
+            />
+          )}
 
-        {activeTab === "mealplan" && (
-          <MealPlanner
-            mealPlan={mealPlan}
-            onGenerateMealPlan={handleGenerateMealPlan}
-            isGeneratingPlan={isGeneratingPlan}
-            profile={profile}
-          />
-        )}
+          {activeTab === "mealplan" && (
+            <MealPlanner
+              mealPlan={mealPlan}
+              onGenerateMealPlan={handleGenerateMealPlan}
+              isGeneratingPlan={isGeneratingPlan}
+              profile={profile}
+            />
+          )}
 
-        {activeTab === "consultation" && (
-          <AIConsultation
-            profile={profile}
-          />
-        )}
+          {activeTab === "consultation" && (
+            <AIConsultation
+              profile={profile}
+            />
+          )}
 
-        {activeTab === "partners" && (
-          <PartnersDirectory />
-        )}
-
+          {activeTab === "partners" && (
+            <PartnersDirectory />
+          )}
+        </Suspense>
       </main>
 
-      {/* Premium Membership checkout modal */}
+      {/* Premium Membership checkout modal (lazy) */}
       {showPremiumModal && (
-        <PremiumPricing 
-          onActivatePremium={handleActivatePremium} 
-          onClose={() => setShowPremiumModal(false)} 
-        />
+        <Suspense fallback={null}>
+          <PremiumPricing 
+            onActivatePremium={handleActivatePremium} 
+            onClose={() => setShowPremiumModal(false)} 
+          />
+        </Suspense>
       )}
 
       {/* Humble modern system footer */}
       <footer className="bg-white border-t border-slate-100 py-6 text-center text-xs text-slate-400">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>© 2026 CEan'sCare. Tous droits réservés.</span>
+          <span>{t("footer.rights")}</span>
           <div className="flex space-x-4">
-            <span className="cursor-pointer hover:text-slate-600">Politique de Confidentialité</span>
+            <span className="cursor-pointer hover:text-slate-600">{t("footer.privacy")}</span>
             <span>•</span>
-            <span className="cursor-pointer hover:text-slate-600">Conditions d'Utilisation</span>
+            <span className="cursor-pointer hover:text-slate-600">{t("footer.terms")}</span>
             <span>•</span>
             <span className="cursor-pointer hover:text-slate-600" onClick={() => setShowPremiumModal(true)}>
-              Abonnement Premium
+              {t("footer.premium")}
             </span>
           </div>
         </div>
