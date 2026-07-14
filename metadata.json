@@ -1,0 +1,6 @@
+{
+  "name": "CEan'sCare",
+  "description": "CEan'sCare est une application de suivi de paramètres de santé personnalisés utilisant l'intelligence artificielle pour analyser les données de santé, proposer des plans alimentaires et des recettes de bien-être.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
