@@ -114,7 +114,7 @@ PROFIL DE L'UTILISATEUR:
     onChunk: (text: string) => void,
     signal?: AbortSignal
   ): Promise<void> => {
-    const apiKey = "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";
+    const apiKey = "";
 
     if (!apiKey) {
       throw new Error("Clé API OpenRouter manquante.");
