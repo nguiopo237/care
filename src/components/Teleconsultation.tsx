@@ -34,6 +34,10 @@ const DEMO_DOCTORS: Doctor[] = [
     bio: "Médecine générale et prévention cardiovasculaire.",
     verified: true,
     city: "Douala",
+    hours: [
+      { days: [1, 2, 3, 4, 5], open: "09:00", close: "18:00" },
+      { days: [6], open: "09:00", close: "13:00" },
+    ],
     registeredAt: new Date().toISOString(),
   },
   {
@@ -47,6 +51,10 @@ const DEMO_DOCTORS: Doctor[] = [
     bio: "Nutrition clinique et micronutrition.",
     verified: true,
     city: "Paris",
+    hours: [
+      { days: [2, 3, 4, 5, 6], open: "09:30", close: "19:00" },
+      { days: [0], open: "10:00", close: "13:00" },
+    ],
     registeredAt: new Date().toISOString(),
   },
   {
@@ -60,6 +68,9 @@ const DEMO_DOCTORS: Doctor[] = [
     bio: "Phytothérapie traditionnelle validée scientifiquement.",
     verified: true,
     city: "Abidjan",
+    hours: [
+      { days: [1, 2, 3, 4, 5], open: "08:00", close: "17:00" },
+    ],
     registeredAt: new Date().toISOString(),
   },
 ];
@@ -345,7 +356,7 @@ export default function Teleconsultation() {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Banner */}
-      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
+      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-6 sm:p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
         <div className="relative z-10 max-w-2xl">
           <span className="bg-[#14cec3]/20 text-[#14cec3] border border-[#14cec3]/30 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-opacity-80">
             {t("teleconsultation.badge")}
@@ -383,19 +394,19 @@ export default function Teleconsultation() {
                 {doctors.map((doc) => (
                   <label
                     key={doc.id}
-                    className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex items-center justify-between gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
                       selectedDoctor === doc.id
                         ? "border-[#0fb3a9] bg-teal-50/60"
                         : "border-slate-100 hover:border-slate-200 bg-slate-50"
                     }`}
                   >
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 min-w-0">
                       <div className="w-9 h-9 rounded-full bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] text-white flex items-center justify-center font-bold text-xs shrink-0">
                         {doc.fullName.charAt(0)}
                       </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-800">{doc.fullName}</p>
-                        <p className="text-[10px] text-slate-400">{doc.specialty} • {doc.city}</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-slate-800 truncate">{doc.fullName}</p>
+                        <p className="text-[10px] text-slate-400 truncate">{doc.specialty} • {doc.city}</p>
                       </div>
                     </div>
                     <input
@@ -403,7 +414,7 @@ export default function Teleconsultation() {
                       name="doctor"
                       checked={selectedDoctor === doc.id}
                       onChange={() => setSelectedDoctor(doc.id)}
-                      className="accent-[#0fb3a9]"
+                      className="accent-[#0fb3a9] shrink-0"
                     />
                   </label>
                 ))}
@@ -516,29 +527,29 @@ export default function Teleconsultation() {
             ) : (
               <div className="space-y-3">
                 {appointments.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2.5 rounded-xl bg-teal-50 text-[#0fb3a9]">
+                  <div key={a.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div className="flex items-center space-x-3 min-w-0">
+                      <div className="p-2.5 rounded-xl bg-teal-50 text-[#0fb3a9] shrink-0">
                         {a.type === "video" ? <Video className="w-4 h-4" /> : <Home className="w-4 h-4" />}
                       </div>
-                      <div>
-                        <p className="text-sm font-bold text-slate-800">{a.doctorName}</p>
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-slate-800 truncate">{a.doctorName}</p>
                         <p className="text-[11px] text-slate-400">
                           {a.doctorSpecialty} • {a.date} à {a.time}
                         </p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">{a.patientName} — {a.reason}</p>
+                        <p className="text-[10px] text-slate-400 mt-0.5 truncate">{a.patientName} — {a.reason}</p>
                       </div>
                     </div>
                     {a.status === "upcoming" && a.type === "video" ? (
                       <button
                         onClick={() => joinCall(a)}
-                        className="flex items-center space-x-1.5 px-3 py-2 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white text-xs font-bold rounded-xl cursor-pointer shrink-0"
+                        className="flex items-center justify-center space-x-1.5 px-3 py-2 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white text-xs font-bold rounded-xl cursor-pointer w-full sm:w-auto shrink-0"
                       >
                         <PhoneCall className="w-3.5 h-3.5" />
                         <span>{t("teleconsultation.joinCall")}</span>
                       </button>
                     ) : (
-                      <span className="px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-100 text-[10px] font-bold uppercase">
+                      <span className="px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-100 text-[10px] font-bold uppercase w-fit shrink-0">
                         {a.status === "upcoming" ? t("teleconsultation.planned") : a.status}
                       </span>
                     )}

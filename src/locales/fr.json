@@ -1,5 +1,6 @@
 {
   "nav": {
+    "home": "Accueil",
     "dashboard": "Tableau de Bord",
     "analysis": "Analyse Globale",
     "mealplan": "Nutrition & Recettes",
@@ -219,7 +220,48 @@
     "code": "Code : {{code}}",
     "phone": "Téléphone",
     "visit": "Visiter",
-    "verified": "Partenaire de confiance CEan'sCare"
+    "verified": "Partenaire de confiance CEan'sCare",
+    "detail": {
+      "back": "Retour au réseau",
+      "about": "À propos",
+      "services": "Services & Prestations",
+      "testimonials": "Avis de patients",
+      "hours": "Horaires d'ouverture",
+      "hoursWeek": "Lundi – Vendredi : 9h00 – 19h00",
+      "hoursSat": "Samedi : 9h00 – 13h00",
+      "hoursSun": "Dimanche : Fermé",
+      "contact": "Contact direct",
+      "call": "Appeler",
+      "bookNow": "Réserver une consultation",
+      "bookDesc": "Prenez rendez-vous avec ce professionnel via notre plateforme de téléconsultation.",
+      "verifiedBy": "Partenaire vérifié par CEan'sCare",
+      "openNow": "Ouvert maintenant",
+      "closedNow": "Fermé maintenant",
+      "closedToday": "Fermé aujourd'hui",
+      "services.nutrition": [
+        "Bilan nutritionnel personnalisé",
+        "Suivi métabolique & micronutrition",
+        "Programmes alimentaires adaptés"
+      ],
+      "services.phytotherapy": [
+        "Conseils en phytothérapie clinique",
+        "Tisanes thérapeutiques sur mesure",
+        "Préparations magistrales d'herbes"
+      ],
+      "services.organic": [
+        "Paniers de légumes de saison",
+        "Superaliments bio sélectionnés",
+        "Livraison à domicile sous 48h"
+      ],
+      "services.wellness": [
+        "Bilan vital naturopathique",
+        "Gestion naturelle du stress",
+        "Réflexologie & accompagnement"
+      ],
+      "testimonial1": "« {{name}} a complètement transformé mon suivi santé. Un accompagnement rigoureux et humain. »",
+      "testimonial2": "« Grâce à {{name}}, j'ai enfin compris comment adapter mon alimentation à mes besoins. Je recommande à 100%. »",
+      "testimonial3": "« Un professionnel à l'écoute, des conseils concrets et des résultats visibles dès les premières semaines. »"
+    }
   },
   "doctors": {
     "badge": "Espace Professionnel CEan'sCare",
@@ -261,7 +303,16 @@
     "noAppointments": "Aucun rendez-vous planifié.",
     "statusUpcoming": "À venir",
     "typeVideo": "Téléconsultation vidéo",
-    "typeHome": "Visite à domicile"
+    "typeHome": "Visite à domicile",
+    "hoursTitle": "Horaires de consultation",
+    "hoursDesc": "Définissez vos jours et heures de disponibilité pour vos patients.",
+    "editHours": "Modifier mes horaires",
+    "hoursSaved": "Horaires mis à jour avec succès !",
+    "closed": "Fermé",
+    "noHours": "Aucun horaire défini pour le moment.",
+    "openNow": "Ouvert maintenant",
+    "closedNow": "Fermé maintenant",
+    "closedToday": "Fermé aujourd'hui"
   },
   "teleconsultation": {
     "badge": "Soins de santé à domicile",
@@ -349,11 +400,80 @@
     "unlocked": "Tous les privilèges Premium débloqués !",
     "accessPremium": "Accéder à mes outils Premium"
   },
+  "home": {
+    "heroBadge": "Télémédecine Intelligente & Mondiale",
+    "heroTitle": "Votre santé, suivie intelligemment partout dans le monde",
+    "heroDesc": "CEan'sCare allie l'intelligence artificielle, la médecine moderne et les savoirs holistiques locaux pour un suivi de santé ultra-personnalisé — à la maison comme en voyage, même sans connexion.",
+    "ctaStart": "Commencer mon bilan santé",
+    "ctaDiscover": "Découvrir les innovations",
+    "stat1Value": "+5 000",
+    "stat1Label": "patients accompagnés",
+    "stat2Value": "120+",
+    "stat2Label": "médecins certifiés",
+    "stat3Value": "40+",
+    "stat3Label": "pays couverts",
+    "stat4Value": "4.9/5",
+    "stat4Label": "satisfaction moyenne",
+    "innovationsTitle": "Des innovations qui rendent la télémédecine universelle",
+    "innovationsDesc": "Trois technologies exclusives qui distinguent CEan'sCare de tous les autres services de santé en ligne.",
+    "premiumOnly": "Réservé Premium",
+    "innovation1Title": "Le Jumeau Numérique de Santé",
+    "innovation1Desc": "Un avatar interactif de votre corps qui évolue en temps réel avec vos données (poids, tension, sommeil, hydratation) pour visualiser l'impact direct de votre mode de vie sur votre santé.",
+    "innovation1Highlight1": "Visualisation interactive de votre corps",
+    "innovation1Highlight2": "Alertes visuelles en temps réel",
+    "innovation1Highlight3": "Suivi ludique et motivant",
+    "innovation2Title": "Le Diagnostic IA Hybride & Local",
+    "innovation2Desc": "Une IA à double compétence : la médecine conventionnelle enrichie de routines locales, de plantes médicinales validées et de recettes adaptées à votre région du monde.",
+    "innovation2Highlight1": "Médecine moderne & approche holistique",
+    "innovation2Highlight2": "Recettes et plantes de votre région",
+    "innovation2Highlight3": "Adapté à votre culture et votre climat",
+    "innovation3Title": "Urgences & Continuité Hors-ligne",
+    "innovation3Desc": "Vos guides de premiers secours, votre historique médical et l'IA de routine restent disponibles même sans connexion internet — une vraie bouée de sauvetage en zone isolée.",
+    "innovation3Highlight1": "Fonctionne sans connexion internet",
+    "innovation3Highlight2": "Guides de premiers secours intégrés",
+    "innovation3Highlight3": "Installable comme une application mobile (PWA)",
+    "howTitle": "Comment ça marche ?",
+    "howDesc": "Trois étapes simples pour un suivi de santé complet et personnalisé.",
+    "step1Title": "Saisissez vos constantes",
+    "step1Desc": "Poids, tension, sommeil, hydratation : un journal quotidien en quelques secondes.",
+    "step2Title": "L'IA analyse et vous guide",
+    "step2Desc": "Bilan personnalisé, plans nutritionnels et routines locales adaptés à votre profil.",
+    "step3Title": "Consultez et progressez",
+    "step3Desc": "Téléconsultation vidéo, espace médecin et suivi Premium illimité.",
+    "ctaTitle": "Prêt à transformer votre santé ?",
+    "ctaDesc": "Rejoignez CEan'sCare dès aujourd'hui : bilan IA gratuit, réseau de praticiens certifiés et innovations disponibles partout dans le monde.",
+    "ctaStart2": "Créer mon bilan gratuit",
+    "ctaPremium": "Passer à Premium"
+  },
   "language": {
     "label": "Langue",
     "fr": "Français",
     "en": "English",
     "de": "Deutsch",
     "es": "Español"
+  },
+  "legal": {
+    "title": "Mentions Légales",
+    "privacyTitle": "Politique de Confidentialité",
+    "termsTitle": "Conditions d'Utilisation",
+    "updated": "Dernière mise à jour : Août 2026",
+    "note": "Ce document est fourni à titre informatif et sera complété par un avis juridique professionnel avant la mise en production complète de la plateforme.",
+    "privacySections": [
+      { "title": "1. Données collectées", "body": "CEan'sCare collecte les informations que vous saisissez volontairement : profil de santé (âge, poids, tension, antécédents), journaux de mesures quotidiens, messages de consultation IA et informations d'abonnement. Aucune donnée de santé n'est collectée sans votre consentement explicite." },
+      { "title": "2. Utilisation des données", "body": "Vos données servent exclusivement à personnaliser vos analyses IA, plans nutritionnels et recommandations de bien-être, ainsi qu'à gérer votre abonnement Premium et vos rendez-vous de téléconsultation." },
+      { "title": "3. Stockage local", "body": "La majorité de vos données de santé est stockée localement sur votre appareil (localStorage). Elles ne sont transmises au serveur que lors d'une analyse IA, via une connexion chiffrée TLS." },
+      { "title": "4. Partage avec des tiers", "body": "Nous ne vendons jamais vos données. Les traitements IA sont effectués par nos prestataires (Google Gemini, OpenRouter) qui s'engagent à ne pas utiliser vos données à d'autres fins. Vos coordonnées ne sont partagées avec un praticien qu'après réservation d'un rendez-vous." },
+      { "title": "5. Sécurité", "body": "Les échanges sont chiffrés en TLS et nos serveurs respectent les bonnes pratiques de sécurité. En cas de violation de données, vous serez notifié dans les meilleurs délais." },
+      { "title": "6. Vos droits", "body": "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition sur vos données. Contactez-nous à privacy@ceanscare.app pour exercer ces droits." }
+    ],
+    "termsSections": [
+      { "title": "1. Acceptation des conditions", "body": "En utilisant CEan'sCare, vous acceptez les présentes conditions. Si vous n'êtes pas d'accord, veuillez ne pas utiliser le service." },
+      { "title": "2. Service fourni", "body": "CEan'sCare est une plateforme d'assistance au bien-être et de mise en relation avec des professionnels de santé. L'application ne remplace en aucun cas une consultation médicale en personne." },
+      { "title": "3. Avertissement médical", "body": "Les analyses, diagnostics assistés par IA et recommandations sont fournis à titre informatif uniquement. En cas de symptômes graves ou d'urgence, contactez immédiatement les secours ou votre médecin traitant." },
+      { "title": "4. Obligations de l'utilisateur", "body": "Vous vous engagez à fournir des informations exactes et à ne pas utiliser le service à des fins frauduleuses. Les médecins s'engagent à fournir des justificatifs professionnels valides." },
+      { "title": "5. Abonnement Premium", "body": "L'abonnement Premium est facturé mensuellement ou annuellement et est annulable à tout moment. Le paiement est traité par notre prestataire de paiement sécurisé." },
+      { "title": "6. Responsabilité", "body": "CEan'sCare s'efforce d'assurer la disponibilité du service mais ne garantit pas un fonctionnement ininterrompu. Notre responsabilité est limitée dans la mesure permise par la loi." },
+      { "title": "7. Contact", "body": "Pour toute question relative à ces conditions, contactez-nous à support@ceanscare.app." }
+    ]
   }
 }

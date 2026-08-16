@@ -296,7 +296,7 @@ export default function MealPlanner({
         </div>
 
         {/* Recipe search input form */}
-        <form onSubmit={handleSearchRecipes} className="flex gap-2">
+        <form onSubmit={handleSearchRecipes} className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
@@ -312,7 +312,7 @@ export default function MealPlanner({
             type="submit"
             id="btn-search-recipes"
             disabled={isSearchingRecipes}
-            className="bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-semibold text-xs px-6 rounded-2xl shadow-sm transition-all flex items-center space-x-1 shrink-0 cursor-pointer"
+            className="bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-semibold text-xs px-6 rounded-2xl shadow-sm transition-all flex items-center justify-center space-x-1 w-full sm:w-auto shrink-0 cursor-pointer"
           >
             {isSearchingRecipes ? (
               <>

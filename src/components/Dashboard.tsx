@@ -196,7 +196,7 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Intro Hero banner */}
-      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
+      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-6 sm:p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
         <div className="relative z-10 max-w-2xl">
           <span className="bg-[#14cec3]/20 text-[#14cec3] border border-[#14cec3]/30 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-opacity-80">
             {t("dashboard.heroBadge")}
@@ -394,8 +394,8 @@ export default function Dashboard({ logs, onAddLog, profile }: DashboardProps) {
 
       {/* Dialog: Add Log Modal */}
       {showLogModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl shadow-xl w-full max-w-lg overflow-hidden animate-scale-up border border-slate-100">
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex overflow-y-auto p-4">
+          <div className="bg-white rounded-3xl shadow-xl w-full max-w-lg m-auto overflow-hidden animate-scale-up border border-slate-100">
             <div className="bg-[#0fb3a9] p-6 text-white flex justify-between items-center">
               <div>
                 <h3 className="font-sans font-bold text-xl">{t("dashboard.logModalTitle")}</h3>

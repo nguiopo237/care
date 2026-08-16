@@ -81,10 +81,10 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
   ];
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex overflow-y-auto p-4">
       
       {!showCheckout ? (
-        <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full max-w-4xl overflow-hidden border border-slate-100 animate-scale-up">
+        <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full max-w-4xl m-auto overflow-hidden border border-slate-100 animate-scale-up">
           {/* Header section with gradient */}
           <div className="bg-[#0fb3a9] p-8 text-white relative text-center">
             <button 
@@ -202,7 +202,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
         </div>
       ) : (
         /* checkout details simulation */
-        <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full max-w-md overflow-hidden border border-slate-100 animate-scale-up">
+        <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full max-w-md m-auto overflow-hidden border border-slate-100 animate-scale-up">
           
           {paymentDone ? (
             /* Celebration portal on complete payment */

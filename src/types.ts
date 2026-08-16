@@ -107,6 +107,7 @@ export interface Doctor {
   bio: string;
   verified: boolean;
   city: string;
+  hours: { days: number[]; open: string; close: string }[];
   registeredAt: string;
 }
 
@@ -122,4 +123,22 @@ export interface Appointment {
   reason: string;
   status: "upcoming" | "completed" | "cancelled";
   createdAt: string;
+}
+
+export interface Partner {
+  id: number;
+  name: string;
+  category: "nutrition" | "phytotherapy" | "organic" | "wellness";
+  specialty: string;
+  rating: number;
+  reviews: number;
+  location: string;
+  description: string;
+  promoCode: string;
+  benefit: string;
+  phone: string;
+  website: string;
+  photo: string;
+  hours: { days: number[]; open: string; close: string }[];
+  verified: boolean;
 }

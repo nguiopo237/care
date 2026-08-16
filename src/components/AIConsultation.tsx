@@ -293,7 +293,7 @@ PROFIL DE L'UTILISATEUR:
   }, [localMessages, isStreaming]);
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden h-[600px] flex flex-col justify-between animate-fade-in">
+    <div className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden h-[65vh] min-h-[420px] sm:h-[600px] flex flex-col justify-between animate-fade-in">
       
       {/* Consultation Header */}
       <div className="bg-[#0fb3a9] p-5 text-white flex justify-between items-center shadow-sm">

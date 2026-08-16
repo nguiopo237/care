@@ -1,5 +1,5 @@
-import React from "react";
-import { Heart, Activity, CalendarDays, MessageSquare, Award, Sparkles, Users, Languages, Video, Stethoscope } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Heart, Activity, CalendarDays, MessageSquare, Award, Sparkles, Users, Languages, Video, Stethoscope, Home as HomeIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logo from "@/assets/cemultitransglob-logo.png";
 
@@ -12,12 +12,27 @@ interface HeaderProps {
 
 export default function Header({ activeTab, setActiveTab, isPremium, setShowPremiumModal }: HeaderProps) {
   const { t, i18n } = useTranslation();
+  const [showLangMenu, setShowLangMenu] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close the language dropdown when clicking outside (needed for touch devices)
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
+        setShowLangMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    setShowLangMenu(false);
   };
 
   const navItems = [
+    { id: "home", label: t("nav.home"), icon: HomeIcon },
     { id: "dashboard", label: t("nav.dashboard"), icon: Activity },
     { id: "analysis", label: t("nav.analysis"), icon: Heart },
     { id: "mealplan", label: t("nav.mealplan"), icon: CalendarDays },
@@ -30,26 +45,26 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
   return (
     <header className="sticky top-0 z-40 w-full bg-white border-b border-[#E2E8F0] px-4 sm:px-6 lg:px-10 shrink-0">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo Section */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab("dashboard")}>
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 cursor-pointer" onClick={() => setActiveTab("home")}>
             <img
               src={logo}
               alt="C.E MultiTransGlob"
-              className="h-12 w-auto object-contain shrink-0"
+              className="h-8 sm:h-12 w-auto object-contain shrink-0"
             />
-            <div className="border-l border-slate-200 pl-3">
-              <h1 className="font-sans text-2xl font-bold tracking-tight text-[#0fb3a9]">
+            <div className="border-l border-slate-200 pl-2 sm:pl-3 min-w-0">
+              <h1 className="font-sans text-base sm:text-2xl font-bold tracking-tight text-[#0fb3a9] whitespace-nowrap">
                 CEan's<span className="text-[#14cec3]">Care</span>
               </h1>
-              <p className="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">
+              <p className="hidden sm:block text-[9px] uppercase tracking-wider text-slate-400 font-semibold">
                 {t("header.tagline")}
               </p>
             </div>
           </div>
 
-          {/* Navigation Tabs - Desktop */}
-          <nav className="hidden lg:flex gap-8 items-center">
+          {/* Navigation Tabs - Desktop (scrollable when tight) */}
+          <nav className="hidden lg:flex flex-1 min-w-0 items-center gap-5 xl:gap-7 overflow-x-auto scrollbar-none px-2">
             {navItems.map((item) => {
               const isActive = activeTab === item.id;
               return (
@@ -57,7 +72,7 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
                   key={item.id}
                   id={`nav-tab-${item.id}`}
                   onClick={() => setActiveTab(item.id)}
-                  className={`text-sm pb-1 transition-all ${
+                  className={`text-sm pb-1 whitespace-nowrap shrink-0 transition-all ${
                     isActive
                       ? "font-semibold text-[#0fb3a9] border-b-2 border-[#14cec3]"
                       : "font-medium text-slate-500 hover:text-[#0fb3a9]"
@@ -70,14 +85,23 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
           </nav>
 
           {/* Language Switcher */}
-          <div className="relative group">
+          <div className="relative shrink-0" ref={langMenuRef}>
             <button
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#0fb3a9] hover:border-[#0fb3a9] text-xs font-medium transition-all"
+              onClick={() => setShowLangMenu(!showLangMenu)}
+              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all cursor-pointer ${
+                showLangMenu
+                  ? "border-[#0fb3a9] text-[#0fb3a9] bg-teal-50"
+                  : "border-slate-200 text-slate-500 hover:text-[#0fb3a9] hover:border-[#0fb3a9]"
+              }`}
             >
               <Languages className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{t("language." + i18n.language.substring(0, 2))}</span>
             </button>
-            <div className="absolute right-0 top-full mt-1 w-36 bg-white border border-slate-100 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
+            <div
+              className={`absolute right-0 top-full mt-1 w-36 bg-white border border-slate-100 rounded-xl shadow-lg transition-all z-50 overflow-hidden ${
+                showLangMenu ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+              }`}
+            >
               {["fr", "en", "de", "es"].map((lng) => (
                 <button
                   key={lng}
@@ -95,9 +119,9 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
           </div>
 
           {/* Premium Status & Subscription CTA & Profile */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             {isPremium ? (
-              <div className="hidden sm:flex items-center space-x-1 bg-teal-50 text-teal-700 border border-teal-100 px-3 py-1 rounded-full text-xs font-semibold">
+              <div className="hidden sm:flex items-center space-x-1 bg-teal-50 text-teal-700 border border-teal-100 px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
                 <Award className="w-3.5 h-3.5" />
                 <span>{t("header.premiumBadge")}</span>
               </div>
@@ -105,7 +129,7 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
               <button
                 id="btn-subscribe-header"
                 onClick={() => setShowPremiumModal(true)}
-                className="flex items-center space-x-1 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all cursor-pointer"
+                className="flex items-center space-x-1 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white px-2.5 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-semibold shadow-sm transition-all cursor-pointer whitespace-nowrap"
               >
                 <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
                 <span>{t("header.subscribe")}</span>
@@ -113,8 +137,8 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
             )}
 
             {/* Profile Avatar Widget */}
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
+            <div className="hidden sm:flex items-center gap-3 shrink-0">
+              <div className="text-right hidden md:block">
                 <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                   {isPremium ? t("header.premiumMember") : t("header.standardMember")}
                 </p>

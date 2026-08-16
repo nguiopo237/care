@@ -1,5 +1,6 @@
 {
   "nav": {
+    "home": "Startseite",
     "dashboard": "Dashboard",
     "analysis": "Gesundheitsanalyse",
     "mealplan": "Ernährung & Rezepte",
@@ -219,7 +220,48 @@
     "code": "Code: {{code}}",
     "phone": "Telefon",
     "visit": "Besuchen",
-    "verified": "CEan'sCare Vertrauenspartner"
+    "verified": "CEan'sCare Vertrauenspartner",
+    "detail": {
+      "back": "Zurück zum Netzwerk",
+      "about": "Über uns",
+      "services": "Leistungen",
+      "testimonials": "Patientenbewertungen",
+      "hours": "Öffnungszeiten",
+      "hoursWeek": "Montag – Freitag: 9:00 – 19:00 Uhr",
+      "hoursSat": "Samstag: 9:00 – 13:00 Uhr",
+      "hoursSun": "Sonntag: Geschlossen",
+      "contact": "Direkter Kontakt",
+      "call": "Anrufen",
+      "bookNow": "Beratung buchen",
+      "bookDesc": "Vereinbaren Sie über unsere Telekonsultationsplattform einen Termin mit diesem Fachmann.",
+      "verifiedBy": "Von CEan'sCare verifizierter Partner",
+      "openNow": "Jetzt geöffnet",
+      "closedNow": "Jetzt geschlossen",
+      "closedToday": "Heute geschlossen",
+      "services.nutrition": [
+        "Personalisierte Ernährungsanalyse",
+        "Stoffwechsel- & Mikronährstoff-Betreuung",
+        "Angepasste Ernährungspläne"
+      ],
+      "services.phytotherapy": [
+        "Klinische Phytotherapie-Beratung",
+        "Massgeschneiderte Heilkräutertees",
+        "Individuelle Kräuterzubereitungen"
+      ],
+      "services.organic": [
+        "Saisonale Gemüsekörbe",
+        "Ausgewählte Bio-Superfoods",
+        "Hauszustellung innerhalb von 48h"
+      ],
+      "services.wellness": [
+        "Umfassende naturheilkundliche Analyse",
+        "Natürliches Stressmanagement",
+        "Reflexzonenmassage & Begleitung"
+      ],
+      "testimonial1": "„{{name}} hat meine Gesundheitsreise völlig verändert. Engagierte und einfühlsame Betreuung.“",
+      "testimonial2": "„Dank {{name}} habe ich endlich verstanden, wie ich meine Ernährung an meine Bedürfnisse anpasse. 100% Empfehlung.“",
+      "testimonial3": "„Ein Fachmann, der zuhört, mit konkreten Ratschlägen und sichtbaren Ergebnissen ab den ersten Wochen.“"
+    }
   },
   "doctors": {
     "badge": "CEan'sCare Berufsbereich",
@@ -261,7 +303,16 @@
     "noAppointments": "Keine geplanten Termine.",
     "statusUpcoming": "Bevorstehend",
     "typeVideo": "Video-Telemedizin",
-    "typeHome": "Hausbesuch"
+    "typeHome": "Hausbesuch",
+    "hoursTitle": "Sprechzeiten",
+    "hoursDesc": "Legen Sie Ihre Tage und Zeiten der Verfügbarkeit für Ihre Patienten fest.",
+    "editHours": "Sprechzeiten bearbeiten",
+    "hoursSaved": "Sprechzeiten erfolgreich aktualisiert!",
+    "closed": "Geschlossen",
+    "noHours": "Noch keine Sprechzeiten festgelegt.",
+    "openNow": "Jetzt geöffnet",
+    "closedNow": "Jetzt geschlossen",
+    "closedToday": "Heute geschlossen"
   },
   "teleconsultation": {
     "badge": "Gesundheitsversorgung zu Hause",
@@ -349,11 +400,80 @@
     "unlocked": "Alle Premium-Privilegien freigeschaltet!",
     "accessPremium": "Auf meine Premium-Tools zugreifen"
   },
+  "home": {
+    "heroBadge": "Intelligente & Globale Telemedizin",
+    "heroTitle": "Ihre Gesundheit – intelligent betreut, weltweit",
+    "heroDesc": "CEan'sCare verbindet künstliche Intelligenz, moderne Medizin und lokales holistisches Wissen für ein ultra-personalisiertes Gesundheitsmonitoring – zu Hause, auf Reisen und sogar offline.",
+    "ctaStart": "Meinen Gesundheitscheck starten",
+    "ctaDiscover": "Innovationen entdecken",
+    "stat1Value": "+5.000",
+    "stat1Label": "betreute Patienten",
+    "stat2Value": "120+",
+    "stat2Label": "zertifizierte Ärzte",
+    "stat3Value": "40+",
+    "stat3Label": "abgedeckte Länder",
+    "stat4Value": "4.9/5",
+    "stat4Label": "durchschnittliche Zufriedenheit",
+    "innovationsTitle": "Innovationen, die Telemedizin universell machen",
+    "innovationsDesc": "Drei exklusive Technologien, die CEan'sCare von jedem anderen Online-Gesundheitsdienst abheben.",
+    "premiumOnly": "Nur Premium",
+    "innovation1Title": "Der Digitale Gesundheitszwilling",
+    "innovation1Desc": "Ein interaktiver Avatar Ihres Körpers, der sich in Echtzeit mit Ihren Daten (Gewicht, Blutdruck, Schlaf, Flüssigkeitszufuhr) weiterentwickelt, um die direkten Auswirkungen Ihres Lebensstils auf Ihre Gesundheit sichtbar zu machen.",
+    "innovation1Highlight1": "Interaktive Visualisierung Ihres Körpers",
+    "innovation1Highlight2": "Visuelle Echtzeit-Warnungen",
+    "innovation1Highlight3": "Spielerisches, motivierendes Tracking",
+    "innovation2Title": "Hybride & Lokale KI-Diagnose",
+    "innovation2Desc": "KI mit Doppelkompetenz: konventionelle Medizin, angereichert mit lokalen Routinen, validierten Heilpflanzen und Rezepten, die an Ihre Weltregion angepasst sind.",
+    "innovation2Highlight1": "Moderne Medizin & holistischer Ansatz",
+    "innovation2Highlight2": "Rezepte und Pflanzen Ihrer Region",
+    "innovation2Highlight3": "An Ihre Kultur und Ihr Klima angepasst",
+    "innovation3Title": "Offline-Notfälle & Kontinuität",
+    "innovation3Desc": "Ihre Erste-Hilfe-Anleitungen, Ihre Krankengeschichte und die Routine-KI bleiben auch ohne Internetverbindung verfügbar – eine echte Lebensretter in abgelegenen Gebieten.",
+    "innovation3Highlight1": "Funktioniert ohne Internetverbindung",
+    "innovation3Highlight2": "Integrierte Erste-Hilfe-Anleitungen",
+    "innovation3Highlight3": "Installierbar als Mobile-App (PWA)",
+    "howTitle": "Wie funktioniert es?",
+    "howDesc": "Drei einfache Schritte für ein vollständiges, personalisiertes Gesundheitsmonitoring.",
+    "step1Title": "Erfassen Sie Ihre Werte",
+    "step1Desc": "Gewicht, Blutdruck, Schlaf, Flüssigkeitszufuhr: ein tägliches Tagebuch in Sekunden.",
+    "step2Title": "Die KI analysiert und leitet Sie",
+    "step2Desc": "Personalisierter Befund, Ernährungspläne und lokale Routinen, abgestimmt auf Ihr Profil.",
+    "step3Title": "Konsultieren und Fortschritte machen",
+    "step3Desc": "Video-Telekonsultation, Arztbereich und unbegrenztes Premium-Monitoring.",
+    "ctaTitle": "Bereit, Ihre Gesundheit zu transformieren?",
+    "ctaDesc": "Treten Sie noch heute CEan'sCare bei: kostenloser KI-Befund, Netzwerk zertifizierter Ärzte und weltweit verfügbare Innovationen.",
+    "ctaStart2": "Meinen kostenlosen Befund erstellen",
+    "ctaPremium": "Premium werden"
+  },
   "language": {
     "label": "Sprache",
     "fr": "Français",
     "en": "English",
     "de": "Deutsch",
     "es": "Español"
+  },
+  "legal": {
+    "title": "Rechtlicher Hinweis",
+    "privacyTitle": "Datenschutzerklärung",
+    "termsTitle": "Nutzungsbedingungen",
+    "updated": "Zuletzt aktualisiert: August 2026",
+    "note": "Dieses Dokument dient nur zu Informationszwecken und wird vor dem vollständigen Produktionsstart der Plattform durch professionelle rechtliche Beratung ergänzt.",
+    "privacySections": [
+      { "title": "1. Erhobene Daten", "body": "CEan'sCare erhebt die Informationen, die Sie freiwillig angeben: Gesundheitsprofil (Alter, Gewicht, Blutdruck, Krankengeschichte), tägliche Messprotokolle, KI-Beratungsnachrichten und Abonnementdaten. Es werden keine Gesundheitsdaten ohne Ihre ausdrückliche Zustimmung erhoben." },
+      { "title": "2. Verwendung der Daten", "body": "Ihre Daten dienen ausschließlich der Personalisierung Ihrer KI-Analysen, Ernährungspläne und Wellness-Empfehlungen sowie der Verwaltung Ihres Premium-Abonnements und Ihrer Termine." },
+      { "title": "3. Lokale Speicherung", "body": "Der Großteil Ihrer Gesundheitsdaten wird lokal auf Ihrem Gerät gespeichert (localStorage). Sie werden nur während einer KI-Analyse über eine verschlüsselte TLS-Verbindung an den Server übertragen." },
+      { "title": "4. Weitergabe an Dritte", "body": "Wir verkaufen Ihre Daten niemals. Die KI-Verarbeitung erfolgt durch unsere Anbieter (Google Gemini, OpenRouter), die sich verpflichten, Ihre Daten nicht für andere Zwecke zu verwenden. Ihre Kontaktdaten werden erst nach Terminbuchung an einen Arzt weitergegeben." },
+      { "title": "5. Sicherheit", "body": "Die Kommunikation ist TLS-verschlüsselt und unsere Server entsprechen den Sicherheitsstandards. Im Falle einer Datenpanne werden Sie umgehend benachrichtigt." },
+      { "title": "6. Ihre Rechte", "body": "Gemäß DSGVO haben Sie das Recht auf Auskunft, Berichtigung, Löschung und Widerspruch. Kontaktieren Sie uns unter privacy@ceanscare.app, um diese Rechte auszuüben." }
+    ],
+    "termsSections": [
+      { "title": "1. Annahme der Bedingungen", "body": "Durch die Nutzung von CEan'sCare akzeptieren Sie diese Bedingungen. Wenn Sie nicht einverstanden sind, nutzen Sie den Dienst bitte nicht." },
+      { "title": "2. Erbrachte Leistungen", "body": "CEan'sCare ist eine Plattform zur Unterstützung des Wohlbefindens und zur Vermittlung von Gesundheitsfachkräften. Die Anwendung ersetzt in keiner Weise eine persönliche ärztliche Konsultation." },
+      { "title": "3. Medizinischer Hinweis", "body": "KI-gestützte Analysen, Diagnosen und Empfehlungen dienen nur zu Informationszwecken. Bei schwerwiegenden Symptomen oder Notfällen wenden Sie sich sofort an den Notdienst oder Ihren Arzt." },
+      { "title": "4. Pflichten des Nutzers", "body": "Sie verpflichten sich, genaue Informationen bereitzustellen und den Dienst nicht für betrügerische Zwecke zu nutzen. Ärzte verpflichten sich, gültige Berufsnachweise vorzulegen." },
+      { "title": "5. Premium-Abonnement", "body": "Das Premium-Abonnement wird monatlich oder jährlich abgerechnet und kann jederzeit gekündigt werden. Die Zahlung erfolgt über unseren sicheren Zahlungsanbieter." },
+      { "title": "6. Haftung", "body": "CEan'sCare bemüht sich um die Verfügbarkeit des Dienstes, garantiert jedoch keinen unterbrechungsfreien Betrieb. Unsere Haftung ist im gesetzlich zulässigen Umfang beschränkt." },
+      { "title": "7. Kontakt", "body": "Bei Fragen zu diesen Bedingungen kontaktieren Sie uns unter support@ceanscare.app." }
+    ]
   }
 }

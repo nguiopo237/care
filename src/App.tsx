@@ -4,6 +4,7 @@ import { UserProfile, HealthAnalysisResult, MealPlanResult, HealthLog } from "./
 import Header from "./components/Header";
 
 // Lazy-loaded route components — they are split into separate chunks
+const Home = lazy(() => import("./components/Home"));
 const Dashboard = lazy(() => import("./components/Dashboard"));
 const HealthAnalysis = lazy(() => import("./components/HealthAnalysis"));
 const MealPlanner = lazy(() => import("./components/MealPlanner"));
@@ -12,6 +13,7 @@ const PartnersDirectory = lazy(() => import("./components/PartnersDirectory"));
 const DoctorSpace = lazy(() => import("./components/DoctorSpace"));
 const Teleconsultation = lazy(() => import("./components/Teleconsultation"));
 const PremiumPricing = lazy(() => import("./components/PremiumPricing"));
+const LegalModal = lazy(() => import("./components/LegalModal"));
 
 const PageLoader = () => {
   const { t } = useTranslation();
@@ -145,12 +147,13 @@ const getInitialMealPlan = (): MealPlanResult => {
 
 export default function App() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [activeTab, setActiveTab] = useState<string>("home");
   const [isPremium, setIsPremium] = useState<boolean>(() => {
     const saved = localStorage.getItem("ceans_premium_status");
     return saved === "true";
   });
   const [showPremiumModal, setShowPremiumModal] = useState<boolean>(false);
+  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
 
   // User Profile State
   const [profile, setProfile] = useState<UserProfile>(() => {
@@ -321,6 +324,13 @@ export default function App() {
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Suspense fallback={<PageLoader />}>
+          {activeTab === "home" && (
+            <Home 
+              onNavigate={setActiveTab} 
+              onOpenPremium={() => setShowPremiumModal(true)} 
+            />
+          )}
+
           {activeTab === "dashboard" && (
             <Dashboard 
               logs={logs} 
@@ -336,6 +346,7 @@ export default function App() {
               analysisResult={analysisResult}
               onRunAnalysis={handleRunAnalysis}
               isAnalyzing={isAnalyzing}
+              onNavigate={setActiveTab}
             />
           )}
 
@@ -355,7 +366,7 @@ export default function App() {
           )}
 
           {activeTab === "partners" && (
-            <PartnersDirectory />
+            <PartnersDirectory onNavigate={setActiveTab} />
           )}
 
           {activeTab === "doctors" && (
@@ -378,14 +389,25 @@ export default function App() {
         </Suspense>
       )}
 
+      {/* Legal modal (privacy / terms) */}
+      {legalModal && (
+        <Suspense fallback={null}>
+          <LegalModal mode={legalModal} onClose={() => setLegalModal(null)} />
+        </Suspense>
+      )}
+
       {/* Humble modern system footer */}
       <footer className="bg-white border-t border-slate-100 py-6 text-center text-xs text-slate-400">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>{t("footer.rights")}</span>
-          <div className="flex space-x-4">
-            <span className="cursor-pointer hover:text-slate-600">{t("footer.privacy")}</span>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+            <span className="cursor-pointer hover:text-slate-600" onClick={() => setLegalModal("privacy")}>
+              {t("footer.privacy")}
+            </span>
             <span>•</span>
-            <span className="cursor-pointer hover:text-slate-600">{t("footer.terms")}</span>
+            <span className="cursor-pointer hover:text-slate-600" onClick={() => setLegalModal("terms")}>
+              {t("footer.terms")}
+            </span>
             <span>•</span>
             <span className="cursor-pointer hover:text-slate-600" onClick={() => setShowPremiumModal(true)}>
               {t("footer.premium")}

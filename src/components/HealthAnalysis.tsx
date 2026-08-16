@@ -23,6 +23,7 @@ interface HealthAnalysisProps {
   analysisResult: HealthAnalysisResult | null;
   onRunAnalysis: () => Promise<void>;
   isAnalyzing: boolean;
+  onNavigate: (tab: string) => void;
 }
 
 export default function HealthAnalysis({ 
@@ -30,7 +31,8 @@ export default function HealthAnalysis({
   onUpdateProfile, 
   analysisResult, 
   onRunAnalysis, 
-  isAnalyzing 
+  isAnalyzing,
+  onNavigate 
 }: HealthAnalysisProps) {
   const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
@@ -464,10 +466,13 @@ export default function HealthAnalysis({
                   {analysisResult.dietaryFocus}
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-white/10 text-xs text-teal-200 font-semibold flex items-center space-x-1 relative z-10">
+              <button
+                onClick={() => onNavigate("mealplan")}
+                className="mt-6 pt-4 border-t border-white/10 text-xs text-teal-200 font-semibold flex items-center space-x-1 relative z-10 w-full text-left cursor-pointer transition-all hover:text-white"
+              >
                 <span>{t("analysis.viewMenus")}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
-              </div>
+              </button>
               <div className="absolute -right-16 -bottom-16 w-44 h-44 rounded-full bg-teal-500/10 blur-2xl"></div>
             </div>
 

@@ -13,8 +13,20 @@ import {
   AlertTriangle,
   MapPin,
   ClipboardList,
+  Clock,
 } from "lucide-react";
 import { Doctor, Appointment } from "../types";
+import {
+  DAY_ORDER,
+  WeeklyHours,
+  capitalize,
+  dayName,
+  formatDays,
+  formatTime,
+  getOpenStatus,
+  hoursToMap,
+  mergeDays,
+} from "../utils/hours";
 
 const DOCTORS_KEY = "ceans_doctors";
 const CURRENT_DOCTOR_KEY = "ceans_current_doctor";
@@ -46,8 +58,94 @@ function loadAppointments(): Appointment[] {
   }
 }
 
+// Default availability: weekdays 9h-18h, Saturday 9h-13h, Sunday closed
+function defaultHours(): WeeklyHours {
+  return {
+    1: { open: "09:00", close: "18:00" },
+    2: { open: "09:00", close: "18:00" },
+    3: { open: "09:00", close: "18:00" },
+    4: { open: "09:00", close: "18:00" },
+    5: { open: "09:00", close: "18:00" },
+    6: { open: "09:00", close: "13:00" },
+  };
+}
+
+// Per-day editor (checkbox + open/close time pickers), localized day labels
+function HoursEditor({
+  value,
+  onChange,
+  locale,
+  closedLabel,
+}: {
+  value: WeeklyHours;
+  onChange: (v: WeeklyHours) => void;
+  locale: string;
+  closedLabel: string;
+}) {
+  const toggleDay = (day: number) => {
+    const next = { ...value };
+    if (next[day]) {
+      delete next[day];
+    } else {
+      next[day] = { open: "09:00", close: "18:00" };
+    }
+    onChange(next);
+  };
+  const setTime = (day: number, field: "open" | "close", val: string) => {
+    const cur = value[day] || { open: "09:00", close: "18:00" };
+    onChange({ ...value, [day]: { ...cur, [field]: val } });
+  };
+  return (
+    <div className="space-y-1.5">
+      {DAY_ORDER.map((day) => {
+        const enabled = !!value[day];
+        return (
+          <div
+            key={day}
+            className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-2.5 rounded-xl border transition-all ${
+              enabled ? "bg-teal-50/60 border-teal-100" : "bg-slate-50 border-slate-100"
+            }`}
+          >
+            <label className="flex items-center space-x-2.5 flex-1 min-w-0 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={enabled}
+                onChange={() => toggleDay(day)}
+                className="w-4 h-4 accent-[#0fb3a9] shrink-0"
+              />
+              <span className={`text-xs font-semibold truncate ${enabled ? "text-slate-800" : "text-slate-400"}`}>
+                {capitalize(dayName(locale, day))}
+              </span>
+            </label>
+            {enabled ? (
+              <div className="flex items-center gap-2 sm:shrink-0 pl-7 sm:pl-0">
+                <input
+                  type="time"
+                  value={value[day].open}
+                  onChange={(e) => setTime(day, "open", e.target.value)}
+                  className="px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-medium focus:outline-none focus:ring-2 focus:ring-[#0fb3a9]"
+                />
+                <span className="text-slate-400 text-xs">–</span>
+                <input
+                  type="time"
+                  value={value[day].close}
+                  onChange={(e) => setTime(day, "close", e.target.value)}
+                  className="px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-medium focus:outline-none focus:ring-2 focus:ring-[#0fb3a9]"
+                />
+              </div>
+            ) : (
+              <span className="text-[10px] text-slate-400 font-medium pl-7 sm:pl-0">{closedLabel}</span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function DoctorSpace() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language.substring(0, 2);
   const [doctors, setDoctors] = useState<Doctor[]>(loadDoctors);
   const [currentDoctor, setCurrentDoctor] = useState<Doctor | null>(() => {
     try {
@@ -71,6 +169,14 @@ export default function DoctorSpace() {
   const [agreeVerification, setAgreeVerification] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  // Opening hours (registration form)
+  const [hours, setHours] = useState<WeeklyHours>(defaultHours);
+
+  // Opening hours (dashboard edit mode)
+  const [editingHours, setEditingHours] = useState(false);
+  const [hoursEdit, setHoursEdit] = useState<WeeklyHours>({});
+  const [hoursSavedMsg, setHoursSavedMsg] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(DOCTORS_KEY, JSON.stringify(doctors));
@@ -112,6 +218,7 @@ export default function DoctorSpace() {
       bio: bio.trim(),
       verified: true, // license submitted & validated in this demo flow
       city: city.trim(),
+      hours: mergeDays(hours),
       registeredAt: new Date().toISOString(),
     };
 
@@ -130,6 +237,8 @@ export default function DoctorSpace() {
     setBio("");
     setCity("");
     setAgreeVerification(false);
+    setHours(defaultHours());
+    setEditingHours(false);
   };
 
   // Doctors only see appointments booked for them
@@ -142,12 +251,34 @@ export default function DoctorSpace() {
     new Map(myAppointments.map((a) => [a.patientName, a])).values()
   );
 
+  // Opening hours (dashboard)
+  const doctorHours = currentDoctor?.hours ?? [];
+  const hoursStatus = getOpenStatus(doctorHours);
+
+  const startEditHours = () => {
+    setHoursEdit(hoursToMap(doctorHours));
+    setHoursSavedMsg(false);
+    setEditingHours(true);
+  };
+  const cancelEditHours = () => {
+    setEditingHours(false);
+    setHoursSavedMsg(false);
+  };
+  const saveHours = () => {
+    if (currentDoctor) {
+      setCurrentDoctor({ ...currentDoctor, hours: mergeDays(hoursEdit) });
+    }
+    setEditingHours(false);
+    setHoursSavedMsg(true);
+    setTimeout(() => setHoursSavedMsg(false), 3000);
+  };
+
   // ------------------- NOT LOGGED IN : Registration -------------------
   if (!currentDoctor) {
     return (
       <div className="space-y-8 animate-fade-in">
         {/* Banner */}
-        <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
+        <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-6 sm:p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
           <div className="relative z-10 max-w-2xl">
             <span className="bg-[#14cec3]/20 text-[#14cec3] border border-[#14cec3]/30 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-opacity-80">
               {t("doctors.badge")}
@@ -277,6 +408,13 @@ export default function DoctorSpace() {
                 />
               </div>
 
+              {/* Opening hours */}
+              <div>
+                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">{t("doctors.hoursTitle")}</label>
+                <p className="text-[11px] text-slate-400 mb-3 leading-relaxed">{t("doctors.hoursDesc")}</p>
+                <HoursEditor value={hours} onChange={setHours} locale={locale} closedLabel={t("doctors.closed")} />
+              </div>
+
               {/* License verification checkbox */}
               <label className="flex items-start space-x-2.5 p-3 bg-teal-50/60 border border-teal-100 rounded-xl cursor-pointer">
                 <input
@@ -347,7 +485,7 @@ export default function DoctorSpace() {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Header banner */}
-      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
+      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-6 sm:p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
             <div className="w-14 h-14 rounded-2xl bg-white/15 border border-white/20 flex items-center justify-center text-white font-bold text-xl shrink-0">
@@ -410,6 +548,89 @@ export default function DoctorSpace() {
         </div>
       </div>
 
+      {/* Opening hours card */}
+      <div className="bg-white border border-slate-100 p-6 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h3 className="font-sans font-bold text-lg text-slate-800 flex items-center space-x-2">
+            <Clock className="w-5 h-5 text-[#14cec3]" />
+            <span>{t("doctors.hoursTitle")}</span>
+          </h3>
+          {!editingHours && (
+            <button
+              onClick={startEditHours}
+              className="text-xs font-semibold text-[#0fb3a9] hover:text-[#0d9488] px-3 py-1.5 bg-[#0fb3a9]/10 hover:bg-[#0fb3a9]/15 rounded-lg transition-all cursor-pointer"
+            >
+              {t("doctors.editHours")}
+            </button>
+          )}
+        </div>
+
+        {editingHours ? (
+          <div className="space-y-4">
+            <HoursEditor value={hoursEdit} onChange={setHoursEdit} locale={locale} closedLabel={t("doctors.closed")} />
+            <div className="flex space-x-3 pt-2">
+              <button
+                onClick={cancelEditHours}
+                className="w-1/2 py-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer"
+              >
+                {t("common.cancel")}
+              </button>
+              <button
+                onClick={saveHours}
+                className="w-1/2 py-2.5 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-bold text-xs rounded-xl shadow-sm transition-all cursor-pointer"
+              >
+                {t("common.save")}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            {hoursSavedMsg && (
+              <div className="mb-3 p-3 bg-teal-50 border border-teal-100 rounded-xl flex items-start space-x-2 text-teal-800 text-xs">
+                <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                <span>{t("doctors.hoursSaved")}</span>
+              </div>
+            )}
+
+            {doctorHours.length === 0 ? (
+              <p className="text-sm text-slate-400 py-4 text-center">{t("doctors.noHours")}</p>
+            ) : (
+              <>
+                <div className="space-y-1">
+                  {doctorHours.map((h, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-2.5 border-b border-slate-50 last:border-0"
+                    >
+                      <span className="text-sm font-semibold text-slate-700">{formatDays(locale, h.days)}</span>
+                      <span className="text-sm text-slate-500 font-medium">
+                        {formatTime(locale, h.open)} – {formatTime(locale, h.close)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4 flex items-center justify-end">
+                  {hoursStatus.openNow ? (
+                    <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-teal-700 text-[10px] font-bold uppercase">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse inline-block"></span>
+                      <span>{t("doctors.openNow")}</span>
+                    </span>
+                  ) : (
+                    <span className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${
+                      hoursStatus.openToday ? "bg-red-50 border-red-100 text-red-600" : "bg-slate-100 border-slate-200 text-slate-500"
+                    }`}>
+                      <span className={`w-1.5 h-1.5 rounded-full inline-block ${hoursStatus.openToday ? "bg-red-400" : "bg-slate-400"}`}></span>
+                      <span>{hoursStatus.openToday ? t("doctors.closedNow") : t("doctors.closedToday")}</span>
+                    </span>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Patients list */}
       <div className="bg-white border border-slate-100 p-6 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
         <h3 className="font-sans font-bold text-lg text-slate-800 mb-4 flex items-center space-x-2">
@@ -422,19 +643,19 @@ export default function DoctorSpace() {
         ) : (
           <div className="space-y-3">
             {myPatients.map((p) => (
-              <div key={p.patientName} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="flex items-center space-x-3">
+              <div key={p.patientName} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center space-x-3 min-w-0">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] text-white flex items-center justify-center font-bold text-sm shrink-0">
                     {p.patientName.charAt(0).toUpperCase()}
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-800">{p.patientName}</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-slate-800 truncate">{p.patientName}</p>
                     <p className="text-[11px] text-slate-400">
                       {p.doctorSpecialty} • {p.date} à {p.time}
                     </p>
                   </div>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
+                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase w-fit shrink-0 ${
                   p.status === "upcoming" ? "bg-teal-50 text-teal-700 border border-teal-100" : "bg-slate-100 text-slate-500"
                 }`}>
                   {p.status === "upcoming" ? t("doctors.statusUpcoming") : p.status}
@@ -457,19 +678,19 @@ export default function DoctorSpace() {
         ) : (
           <div className="space-y-3">
             {myAppointments.map((a) => (
-              <div key={a.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2.5 rounded-xl bg-teal-50 text-[#0fb3a9]">
+              <div key={a.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                <div className="flex items-center space-x-3 min-w-0">
+                  <div className="p-2.5 rounded-xl bg-teal-50 text-[#0fb3a9] shrink-0">
                     <Phone className="w-4 h-4" />
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-800">{a.patientName}</p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-slate-800 truncate">{a.patientName}</p>
                     <p className="text-[11px] text-slate-400">
                       {a.date} à {a.time} • {a.type === "video" ? t("doctors.typeVideo") : t("doctors.typeHome")} • {a.reason}
                     </p>
                   </div>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
+                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase w-fit shrink-0 ${
                   a.status === "upcoming" ? "bg-teal-50 text-teal-700 border border-teal-100" : "bg-slate-100 text-slate-500"
                 }`}>
                   {a.status === "upcoming" ? t("doctors.statusUpcoming") : a.status}
