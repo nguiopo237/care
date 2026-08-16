@@ -95,3 +95,31 @@ export interface HealthLog {
   sleep: number; // in hours
   activityMinutes: number;
 }
+
+export interface Doctor {
+  id: string;
+  fullName: string;
+  specialty: string;
+  email: string;
+  phone: string;
+  licenseNumber: string;
+  experienceYears: number;
+  bio: string;
+  verified: boolean;
+  city: string;
+  registeredAt: string;
+}
+
+export interface Appointment {
+  id: string;
+  doctorName: string;
+  doctorSpecialty: string;
+  doctorPhone: string;
+  patientName: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  type: "video" | "home";
+  reason: string;
+  status: "upcoming" | "completed" | "cancelled";
+  createdAt: string;
+}

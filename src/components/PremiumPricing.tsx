@@ -36,6 +36,29 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
   const price = billingCycle === "monthly" ? 14.99 : 8.25; // 99/year
   const savingsText = billingCycle === "yearly" ? t("premium.billedYearly", { amount: 99 }) : t("premium.billedMonthly");
 
+  // Try Stripe Checkout first; fall back to the simulated card form when Stripe isn't configured
+  const handleChoosePlan = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: billingCycle }),
+      });
+      const data = await response.json();
+      if (response.ok && data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      // Stripe not configured (501) or error → use built-in simulated checkout
+      setIsSubmitting(false);
+      setShowCheckout(true);
+    } catch {
+      setIsSubmitting(false);
+      setShowCheckout(true);
+    }
+  };
+
   const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -153,10 +176,18 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
               <div className="space-y-3 mt-6">
                 <button
                   id="btn-goto-checkout"
-                  onClick={() => setShowCheckout(true)}
-                  className="w-full py-3 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-bold text-sm rounded-xl shadow-sm transition cursor-pointer"
+                  onClick={handleChoosePlan}
+                  disabled={isSubmitting}
+                  className="w-full py-3 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-bold text-sm rounded-xl shadow-sm transition cursor-pointer flex items-center justify-center space-x-2"
                 >
-                  {t("premium.choosePlan")}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>{t("premium.redirecting")}</span>
+                    </>
+                  ) : (
+                    <span>{t("premium.choosePlan")}</span>
+                  )}
                 </button>
                 <button
                   id="btn-cancel-pricing-box"

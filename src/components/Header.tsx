@@ -1,5 +1,5 @@
 import React from "react";
-import { Heart, Activity, CalendarDays, MessageSquare, Award, Sparkles, Users, Languages } from "lucide-react";
+import { Heart, Activity, CalendarDays, MessageSquare, Award, Sparkles, Users, Languages, Video, Stethoscope } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import logo from "@/assets/cemultitransglob-logo.png";
 
@@ -21,7 +21,9 @@ export default function Header({ activeTab, setActiveTab, isPremium, setShowPrem
     { id: "dashboard", label: t("nav.dashboard"), icon: Activity },
     { id: "analysis", label: t("nav.analysis"), icon: Heart },
     { id: "mealplan", label: t("nav.mealplan"), icon: CalendarDays },
+    { id: "teleconsultation", label: t("nav.teleconsultation"), icon: Video },
     { id: "consultation", label: t("nav.consultation"), icon: MessageSquare },
+    { id: "doctors", label: t("nav.doctors"), icon: Stethoscope },
     { id: "partners", label: t("nav.partners"), icon: Users },
   ];
 

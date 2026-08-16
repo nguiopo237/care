@@ -393,4 +393,56 @@ ${userProfileText}`;
   }
 });
 
+// Endpoint: Stripe Checkout Session (Premium subscription)
+// Returns { url } when STRIPE_SECRET_KEY is configured, otherwise 501 so the
+// frontend can fall back to the built-in simulated payment form.
+app.post("/api/create-checkout-session", async (req, res) => {
+  try {
+    const { plan = "monthly" } = req.body;
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+
+    if (!stripeKey) {
+      return res.status(501).json({ error: "STRIPE_NOT_CONFIGURED", message: "Stripe n'est pas configuré." });
+    }
+
+    const prices: Record<string, { amount: number; name: string }> = {
+      monthly: { amount: 1499, name: "CEan'sCare Premium — Mensuel" },
+      yearly: { amount: 9900, name: "CEan'sCare Premium — Annuel" },
+    };
+    const config = prices[plan] || prices.monthly;
+
+    const origin = req.headers.origin || `${req.protocol}://${req.get("host")}`;
+    const params = new URLSearchParams({
+      mode: "subscription",
+      "line_items[0][price_data][currency]": "eur",
+      "line_items[0][price_data][product_data][name]": config.name,
+      "line_items[0][price_data][unit_amount]": String(config.amount),
+      "line_items[0][price_data][recurring][interval]": "month",
+      "line_items[0][quantity]": "1",
+      success_url: `${origin}/?premium=success`,
+      cancel_url: `${origin}/?premium=cancelled`,
+    });
+
+    const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${stripeKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+
+    const data: any = await response.json();
+    if (!response.ok || !data.url) {
+      console.error("Stripe error:", data);
+      return res.status(response.status).json({ error: data.error?.message || "Erreur Stripe." });
+    }
+
+    res.json({ url: data.url, sessionId: data.id });
+  } catch (error: any) {
+    console.error("Error in /api/create-checkout-session:", error);
+    res.status(500).json({ error: error.message || "Erreur lors de la création de la session Stripe." });
+  }
+});
+
 export default app;

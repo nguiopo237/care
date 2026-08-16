@@ -9,6 +9,8 @@ const HealthAnalysis = lazy(() => import("./components/HealthAnalysis"));
 const MealPlanner = lazy(() => import("./components/MealPlanner"));
 const AIConsultation = lazy(() => import("./components/AIConsultation"));
 const PartnersDirectory = lazy(() => import("./components/PartnersDirectory"));
+const DoctorSpace = lazy(() => import("./components/DoctorSpace"));
+const Teleconsultation = lazy(() => import("./components/Teleconsultation"));
 const PremiumPricing = lazy(() => import("./components/PremiumPricing"));
 
 const PageLoader = () => {
@@ -194,6 +196,15 @@ export default function App() {
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [isGeneratingPlan, setIsGeneratingPlan] = useState<boolean>(false);
 
+  // Activate premium after a successful Stripe Checkout redirect (?premium=success)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("premium") === "success") {
+      setIsPremium(true);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   // Sync state to local storage
   useEffect(() => {
     localStorage.setItem("ceans_user_profile", JSON.stringify(profile));
@@ -345,6 +356,14 @@ export default function App() {
 
           {activeTab === "partners" && (
             <PartnersDirectory />
+          )}
+
+          {activeTab === "doctors" && (
+            <DoctorSpace />
+          )}
+
+          {activeTab === "teleconsultation" && (
+            <Teleconsultation />
           )}
         </Suspense>
       </main>
