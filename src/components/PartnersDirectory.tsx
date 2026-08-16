@@ -131,13 +131,13 @@ export default function PartnersDirectory() {
     <div className="space-y-8 animate-fade-in">
       
       {/* Network Header Banner */}
-      <div className="relative overflow-hidden bg-[#064E3B] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
+      <div className="relative overflow-hidden bg-[#0fb3a9] rounded-3xl p-8 text-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
         <div className="relative z-10 max-w-2xl">
-          <span className="bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/30 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-opacity-80">
+          <span className="bg-[#14cec3]/20 text-[#14cec3] border border-[#14cec3]/30 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-opacity-80">
             {t("partners.badge")}
           </span>
           <h2 className="font-sans text-3xl font-bold mt-4 leading-tight">{t("partners.title")}</h2>
-          <p className="text-emerald-100/90 text-sm mt-2 leading-relaxed">{t("partners.desc")}</p>
+          <p className="text-teal-100/90 text-sm mt-2 leading-relaxed">{t("partners.desc")}</p>
         </div>
         <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white/5 blur-2xl rounded-full"></div>
       </div>
@@ -153,7 +153,7 @@ export default function PartnersDirectory() {
               onClick={() => setActiveFilter(cat.id)}
               className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 activeFilter === cat.id
-                  ? "bg-[#064E3B] text-white shadow-sm"
+                  ? "bg-[#0fb3a9] text-white shadow-sm"
                   : "bg-white text-slate-600 border border-slate-100 hover:bg-slate-50"
               }`}
             >
@@ -170,7 +170,7 @@ export default function PartnersDirectory() {
             placeholder={t("partners.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#064E3B] shadow-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0fb3a9] shadow-sm"
           />
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function PartnersDirectory() {
             <div>
               {/* Card Upper line */}
               <div className="flex justify-between items-start">
-                <span className="bg-[#064E3B]/10 text-[#064E3B] text-[10px] font-extrabold uppercase px-2.5 py-1 rounded">
+                <span className="bg-[#0fb3a9]/10 text-[#0fb3a9] text-[10px] font-extrabold uppercase px-2.5 py-1 rounded">
                   {p.category === "nutrition" && t("partners.categoryNutrition")}
                   {p.category === "phytotherapy" && t("partners.categoryPhyto")}
                   {p.category === "organic" && t("partners.categoryOrganic")}
@@ -210,7 +210,7 @@ export default function PartnersDirectory() {
               <p className="text-slate-500 text-xs mt-3 leading-relaxed">{p.description}</p>
               
               <div className="flex items-center space-x-1 text-[11px] text-slate-400 mt-3 font-semibold">
-                <MapPin className="w-3.5 h-3.5 text-[#064E3B]" />
+                <MapPin className="w-3.5 h-3.5 text-[#0fb3a9]" />
                 <span>{p.location}</span>
               </div>
 
@@ -241,7 +241,7 @@ export default function PartnersDirectory() {
                 target="_blank"
                 rel="noreferrer"
                 id={`btn-visit-partner-${p.id}`}
-                className="flex items-center justify-center space-x-1 px-3 py-2 bg-[#064E3B] hover:bg-[#043427] text-white rounded-xl text-xs font-semibold cursor-pointer"
+                className="flex items-center justify-center space-x-1 px-3 py-2 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white rounded-xl text-xs font-semibold cursor-pointer"
               >
                 <span>{t("partners.visit")}</span>
                 <ExternalLink className="w-3 h-3 text-white" />

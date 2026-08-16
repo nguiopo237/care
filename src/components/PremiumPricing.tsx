@@ -63,7 +63,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
       {!showCheckout ? (
         <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] w-full max-w-4xl overflow-hidden border border-slate-100 animate-scale-up">
           {/* Header section with gradient */}
-          <div className="bg-[#064E3B] p-8 text-white relative text-center">
+          <div className="bg-[#0fb3a9] p-8 text-white relative text-center">
             <button 
               id="btn-close-pricing"
               onClick={onClose}
@@ -73,11 +73,11 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
             </button>
             
             <div className="mx-auto w-12 h-12 bg-white/10 border border-white/20 text-white rounded-2xl flex items-center justify-center shadow-sm mb-4">
-              <Award className="w-7 h-7 text-emerald-300" />
+              <Award className="w-7 h-7 text-teal-300" />
             </div>
 
             <h3 className="font-sans font-extrabold text-2xl sm:text-3xl">{t("premium.title")}</h3>
-            <p className="text-emerald-200/90 text-sm mt-2 max-w-md mx-auto">
+            <p className="text-teal-200/90 text-sm mt-2 max-w-md mx-auto">
               {t("premium.desc")}
             </p>
 
@@ -88,7 +88,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   id="btn-billing-monthly"
                   onClick={() => setBillingCycle("monthly")}
                   className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                    billingCycle === "monthly" ? "bg-[#10B981] text-white shadow-sm" : "text-slate-300 hover:text-white"
+                    billingCycle === "monthly" ? "bg-[#14cec3] text-white shadow-sm" : "text-slate-300 hover:text-white"
                   }`}
                 >
                   {t("premium.monthly")}
@@ -97,7 +97,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   id="btn-billing-yearly"
                   onClick={() => setBillingCycle("yearly")}
                   className={`px-4 py-2 rounded-lg text-xs font-bold transition-all relative flex items-center space-x-1 cursor-pointer ${
-                    billingCycle === "yearly" ? "bg-[#10B981] text-white shadow-sm" : "text-slate-300 hover:text-white"
+                    billingCycle === "yearly" ? "bg-[#14cec3] text-white shadow-sm" : "text-slate-300 hover:text-white"
                   }`}
                 >
                   <span>{t("premium.yearly")}</span>
@@ -119,7 +119,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {premiumFeatures.map((feat, i) => (
                   <div key={i} className="flex items-start space-x-2">
-                    <div className="p-1 rounded-full bg-emerald-100 text-emerald-700 shrink-0 mt-0.5">
+                    <div className="p-1 rounded-full bg-teal-100 text-teal-700 shrink-0 mt-0.5">
                       <Check className="w-3.5 h-3.5" />
                     </div>
                     <div>
@@ -137,7 +137,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                 <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest block mb-2">{t("premium.subscription")}</span>
                 
                 <div className="flex items-baseline justify-center">
-                  <span className="text-4xl font-extrabold font-sans text-[#064E3B]">{price}</span>
+                  <span className="text-4xl font-extrabold font-sans text-[#0fb3a9]">{price}</span>
                   <span className="text-lg font-bold text-slate-400 ml-1">{t("premium.perMonth")}</span>
                 </div>
                 <p className="text-[11px] text-slate-400 mt-2 font-medium leading-relaxed">
@@ -145,7 +145,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                 </p>
 
                 <div className="mt-4 p-3 bg-white border border-slate-200/50 rounded-xl text-left flex items-start space-x-2 text-[10px] text-slate-500">
-                  <Info className="w-4 h-4 text-[#064E3B] shrink-0 font-bold" />
+                  <Info className="w-4 h-4 text-[#0fb3a9] shrink-0 font-bold" />
                   <span>{t("premium.supportText")}</span>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                 <button
                   id="btn-goto-checkout"
                   onClick={() => setShowCheckout(true)}
-                  className="w-full py-3 bg-[#064E3B] hover:bg-[#043427] text-white font-bold text-sm rounded-xl shadow-sm transition cursor-pointer"
+                  className="w-full py-3 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-bold text-sm rounded-xl shadow-sm transition cursor-pointer"
                 >
                   {t("premium.choosePlan")}
                 </button>
@@ -176,21 +176,21 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
           {paymentDone ? (
             /* Celebration portal on complete payment */
             <div className="p-8 text-center space-y-6">
-              <div className="mx-auto w-16 h-16 bg-emerald-50 text-[#064E3B] rounded-full flex items-center justify-center animate-bounce">
+              <div className="mx-auto w-16 h-16 bg-teal-50 text-[#0fb3a9] rounded-full flex items-center justify-center animate-bounce">
                 <ShieldCheck className="w-10 h-10" />
               </div>
               <div>
                 <h4 className="font-sans font-bold text-xl text-slate-800">{t("premium.congrats", { name: "Camille" })}</h4>
                 <p className="text-slate-500 text-xs mt-2 leading-relaxed">{t("premium.congratsDesc")}</p>
               </div>
-              <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100 text-[11px] font-semibold text-[#064E3B] flex items-center justify-center space-x-2">
+              <div className="p-4 bg-teal-50 rounded-2xl border border-teal-100 text-[11px] font-semibold text-[#0fb3a9] flex items-center justify-center space-x-2">
                 <Zap className="w-3.5 h-3.5 animate-pulse" />
                 <span>{t("premium.unlocked")}</span>
               </div>
               <button
                 id="btn-celebrate-done"
                 onClick={onClose}
-                className="w-full py-3 bg-[#064E3B] hover:bg-[#043427] text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
+                className="w-full py-3 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer"
               >
                 {t("premium.accessPremium")}
               </button>
@@ -227,7 +227,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   placeholder="Camille N."
                   value={cardName}
                   onChange={(e) => setCardName(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#064E3B]"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0fb3a9]"
                 />
               </div>
 
@@ -242,7 +242,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                     placeholder="4000 1234 5678 9010"
                     value={cardNumber}
                     onChange={(e) => setCardNumber(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#064E3B] font-mono"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0fb3a9] font-mono"
                   />
                 </div>
               </div>
@@ -257,7 +257,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                     placeholder="MM/AA"
                     value={cardExpiry}
                     onChange={(e) => setCardExpiry(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#064E3B] font-mono"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0fb3a9] font-mono"
                   />
                 </div>
                 <div>
@@ -269,14 +269,14 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                     placeholder="123"
                     value={cardCvv}
                     onChange={(e) => setCardCvv(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#064E3B] font-mono"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0fb3a9] font-mono"
                   />
                 </div>
               </div>
 
               {/* Secure footer */}
               <div className="flex items-center space-x-1.5 text-[9px] text-slate-400 justify-center py-2 border-t border-slate-100">
-                <Lock className="w-3.5 h-3.5 text-[#064E3B]" />
+                <Lock className="w-3.5 h-3.5 text-[#0fb3a9]" />
                 <span>{t("premium.secureFooter")}</span>
               </div>
 
@@ -293,7 +293,7 @@ export default function PremiumPricing({ onActivatePremium, onClose }: PremiumPr
                   type="submit"
                   id="btn-confirm-payment"
                   disabled={isSubmitting}
-                  className="w-1/2 py-2.5 bg-[#064E3B] hover:bg-[#043427] text-white font-bold text-xs rounded-xl shadow-sm flex items-center justify-center space-x-1 cursor-pointer"
+                  className="w-1/2 py-2.5 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-bold text-xs rounded-xl shadow-sm flex items-center justify-center space-x-1 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>

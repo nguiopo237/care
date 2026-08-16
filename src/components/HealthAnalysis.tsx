@@ -49,7 +49,7 @@ export default function HealthAnalysis({
 
   const getBmiBg = (category: string) => {
     const cat = category.toLowerCase();
-    if (cat.includes("normal")) return "bg-emerald-500";
+    if (cat.includes("normal")) return "bg-teal-500";
     if (cat.includes("surpoids")) return "bg-amber-500";
     if (cat.includes("obésité")) return "bg-rose-500";
     return "bg-blue-500"; // maigreur
@@ -59,7 +59,7 @@ export default function HealthAnalysis({
     const val = imp.toLowerCase();
     if (val.includes("haut") || val.includes("urg")) return "bg-red-50 text-red-700 border-red-100";
     if (val.includes("moy")) return "bg-amber-50 text-amber-700 border-amber-100";
-    return "bg-emerald-50 text-emerald-700 border-emerald-100";
+    return "bg-teal-50 text-teal-700 border-teal-100";
   };
 
   return (
@@ -71,14 +71,14 @@ export default function HealthAnalysis({
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-6">
           <div className="flex justify-between items-center pb-4 border-b border-slate-100">
             <div>
-              <h3 className="font-sans font-bold text-lg text-[#064E3B]">{t("analysis.profileTitle")}</h3>
+              <h3 className="font-sans font-bold text-lg text-[#0fb3a9]">{t("analysis.profileTitle")}</h3>
               <p className="text-slate-400 text-xs">{t("analysis.profileSubtitle")}</p>
             </div>
             {!editing && (
               <button
                 id="btn-edit-profile"
                 onClick={() => setEditing(true)}
-                className="text-xs font-semibold text-[#064E3B] hover:text-[#043427] px-3 py-1.5 bg-[#064E3B]/10 hover:bg-[#064E3B]/15 rounded-lg transition-all"
+                className="text-xs font-semibold text-[#0fb3a9] hover:text-[#0d9488] px-3 py-1.5 bg-[#0fb3a9]/10 hover:bg-[#0fb3a9]/15 rounded-lg transition-all"
               >
                 {t("analysis.editButton")}
               </button>
@@ -94,7 +94,7 @@ export default function HealthAnalysis({
                     type="number"
                     value={localProfile.age}
                     onChange={(e) => setLocalProfile({ ...localProfile, age: Number(e.target.value) })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
                 <div>
@@ -102,7 +102,7 @@ export default function HealthAnalysis({
                   <select
                     value={localProfile.gender}
                     onChange={(e) => setLocalProfile({ ...localProfile, gender: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   >
                     <option value="Femme">{t("analysis.genderF")}</option>
                     <option value="Homme">{t("analysis.genderM")}</option>
@@ -118,7 +118,7 @@ export default function HealthAnalysis({
                     type="number"
                     value={localProfile.height}
                     onChange={(e) => setLocalProfile({ ...localProfile, height: Number(e.target.value) })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
                 <div>
@@ -127,7 +127,7 @@ export default function HealthAnalysis({
                     type="number"
                     value={localProfile.weight}
                     onChange={(e) => setLocalProfile({ ...localProfile, weight: Number(e.target.value) })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
               </div>
@@ -139,7 +139,7 @@ export default function HealthAnalysis({
                     type="number"
                     value={localProfile.systolic}
                     onChange={(e) => setLocalProfile({ ...localProfile, systolic: Number(e.target.value) })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
                 <div>
@@ -148,7 +148,7 @@ export default function HealthAnalysis({
                     type="number"
                     value={localProfile.diastolic}
                     onChange={(e) => setLocalProfile({ ...localProfile, diastolic: Number(e.target.value) })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default function HealthAnalysis({
                 <select
                   value={localProfile.dietPreference}
                   onChange={(e) => setLocalProfile({ ...localProfile, dietPreference: e.target.value as any })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 >
                   <option value="Omnivore">{t("analysis.dietOmnivore")}</option>
                   <option value="Végétarien">{t("analysis.dietVegetarian")}</option>
@@ -171,7 +171,7 @@ export default function HealthAnalysis({
                 <select
                   value={localProfile.activeLevel}
                   onChange={(e) => setLocalProfile({ ...localProfile, activeLevel: e.target.value as any })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 >
                   <option value="Sédentaire">{t("analysis.activitySedentary")}</option>
                   <option value="Modéré">{t("analysis.activityModerate")}</option>
@@ -185,7 +185,7 @@ export default function HealthAnalysis({
                   placeholder={t("analysis.conditionsPlaceholder")}
                   value={localProfile.chronicConditions}
                   onChange={(e) => setLocalProfile({ ...localProfile, chronicConditions: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
 
@@ -195,7 +195,7 @@ export default function HealthAnalysis({
                   placeholder={t("analysis.symptomsPlaceholder")}
                   value={localProfile.symptoms}
                   onChange={(e) => setLocalProfile({ ...localProfile, symptoms: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 ></textarea>
               </div>
 
@@ -214,7 +214,7 @@ export default function HealthAnalysis({
                 <button
                   type="submit"
                   id="btn-save-profile"
-                  className="w-1/2 py-2 bg-[#064E3B] hover:bg-[#043427] text-white font-semibold text-xs rounded-xl shadow-sm"
+                  className="w-1/2 py-2 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white font-semibold text-xs rounded-xl shadow-sm"
                 >
                   {t("common.apply")}
                 </button>
@@ -259,7 +259,7 @@ export default function HealthAnalysis({
                   id="btn-trigger-ai-analysis"
                   onClick={triggerAnalysis}
                   disabled={isAnalyzing}
-                  className="w-full flex items-center justify-center space-x-2 bg-[#064E3B] hover:bg-[#043427] text-white py-3.5 rounded-xl font-bold text-sm shadow-sm transition-all"
+                  className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white py-3.5 rounded-xl font-bold text-sm shadow-sm transition-all"
                 >
                   {isAnalyzing ? (
                     <>
@@ -281,8 +281,8 @@ export default function HealthAnalysis({
         {/* Informative Guidance & Bio-scanning simulation */}
         <div className="lg:col-span-2 flex flex-col justify-between space-y-6">
           <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-            <h3 className="font-sans font-bold text-lg text-[#064E3B] flex items-center space-x-2">
-              <Dna className="w-5 h-5 text-[#10B981]" />
+            <h3 className="font-sans font-bold text-lg text-[#0fb3a9] flex items-center space-x-2">
+              <Dna className="w-5 h-5 text-[#14cec3]" />
               <span>{t("analysis.howItWorksTitle")}</span>
             </h3>
             <p className="text-slate-500 text-sm mt-3 leading-relaxed">
@@ -301,7 +301,7 @@ export default function HealthAnalysis({
               </div>
 
               <div className="flex items-start space-x-3 p-3.5 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
+                <div className="p-2 bg-teal-50 text-teal-600 rounded-lg">
                   <Leaf className="w-4 h-4" />
                 </div>
                 <div>
@@ -314,10 +314,10 @@ export default function HealthAnalysis({
 
           {/* Loader/Animation during analysis */}
           {isAnalyzing && (
-            <div className="flex-1 bg-[#064E3B] text-white p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-4 shadow-xl relative overflow-hidden">
+            <div className="flex-1 bg-[#0fb3a9] text-white p-8 rounded-3xl flex flex-col items-center justify-center text-center space-y-4 shadow-xl relative overflow-hidden">
               <div className="relative z-10">
-                <Loader2 className="w-12 h-12 text-[#10B981] animate-spin mx-auto mb-4" />
-                <h4 className="font-sans font-bold text-lg text-emerald-300">{t("analysis.analyzingTitle")}</h4>
+                <Loader2 className="w-12 h-12 text-[#14cec3] animate-spin mx-auto mb-4" />
+                <h4 className="font-sans font-bold text-lg text-teal-300">{t("analysis.analyzingTitle")}</h4>
                 <div className="max-w-md mx-auto space-y-1 text-xs text-slate-300 mt-3 font-mono">
                   <p className="animate-pulse">{t("analysis.analyzingBMI")}</p>
                   <p className="animate-pulse delay-75">{t("analysis.analyzingBP")}</p>
@@ -325,7 +325,7 @@ export default function HealthAnalysis({
                   <p className="animate-pulse delay-300">{t("analysis.analyzingTherapy")}</p>
                 </div>
               </div>
-              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/10 blur-2xl pointer-events-none rounded-full"></div>
+              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-teal-500/10 blur-2xl pointer-events-none rounded-full"></div>
             </div>
           )}
 
@@ -338,10 +338,10 @@ export default function HealthAnalysis({
           )}
 
           {!isAnalyzing && analysisResult && (
-            <div className="bg-emerald-50 border border-emerald-100 p-5 rounded-3xl flex items-start space-x-3 text-emerald-800 text-xs leading-relaxed">
-              <AlertTriangle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="bg-teal-50 border border-teal-100 p-5 rounded-3xl flex items-start space-x-3 text-teal-800 text-xs leading-relaxed">
+              <AlertTriangle className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold uppercase tracking-wider block text-[10px] text-emerald-600 mb-1">{t("analysis.disclaimerTitle")}</span>
+                <span className="font-bold uppercase tracking-wider block text-[10px] text-teal-600 mb-1">{t("analysis.disclaimerTitle")}</span>
                 {analysisResult.disclaimer}
               </div>
             </div>
@@ -361,7 +361,7 @@ export default function HealthAnalysis({
               <div>
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">{t("analysis.bmiTitle")}</span>
                 <div className="flex items-baseline space-x-2">
-                  <span className="text-4xl font-extrabold font-sans text-[#064E3B]">{analysisResult.bmi}</span>
+                  <span className="text-4xl font-extrabold font-sans text-[#0fb3a9]">{analysisResult.bmi}</span>
                   <span className="text-xs text-slate-400 font-bold">{t("analysis.bmiUnit")}</span>
                 </div>
               </div>
@@ -403,8 +403,8 @@ export default function HealthAnalysis({
 
           {/* Treatment Options Grid - Incurable or Chronic wellness management */}
           <div className="space-y-4">
-            <h3 className="font-sans font-bold text-xl text-[#064E3B] flex items-center space-x-2">
-              <Stethoscope className="w-5 h-5 text-[#064E3B]" />
+            <h3 className="font-sans font-bold text-xl text-[#0fb3a9] flex items-center space-x-2">
+              <Stethoscope className="w-5 h-5 text-[#0fb3a9]" />
               <span>{t("analysis.therapySectionTitle")}</span>
             </h3>
             <p className="text-slate-400 text-xs">
@@ -415,7 +415,7 @@ export default function HealthAnalysis({
               {analysisResult.treatmentOptions.map((opt, i) => (
                 <div key={i} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col justify-between">
                   <div>
-                    <span className="inline-block bg-[#064E3B]/10 text-[#064E3B] text-[10px] font-extrabold uppercase px-2.5 py-1 rounded mb-3">
+                    <span className="inline-block bg-[#0fb3a9]/10 text-[#0fb3a9] text-[10px] font-extrabold uppercase px-2.5 py-1 rounded mb-3">
                       {opt.category}
                     </span>
                     <h4 className="font-sans font-bold text-slate-800 text-base">{opt.title}</h4>
@@ -434,11 +434,11 @@ export default function HealthAnalysis({
             
             {/* Advice Tips */}
             <div className="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] space-y-4">
-              <h4 className="font-sans font-bold text-[#064E3B] text-base">{t("analysis.tipsTitle")}</h4>
+              <h4 className="font-sans font-bold text-[#0fb3a9] text-base">{t("analysis.tipsTitle")}</h4>
               <div className="space-y-4">
                 {analysisResult.personalizedTips.map((tip, i) => (
                   <div key={i} className="flex items-start space-x-3 p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                    <div className="p-1.5 rounded-full bg-[#10B981] text-white shrink-0 mt-0.5">
+                    <div className="p-1.5 rounded-full bg-[#14cec3] text-white shrink-0 mt-0.5">
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <div>
@@ -456,19 +456,19 @@ export default function HealthAnalysis({
             </div>
 
             {/* Dietary Focus */}
-            <div className="bg-[#064E3B] text-white p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between relative overflow-hidden">
+            <div className="bg-[#0fb3a9] text-white p-8 rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between relative overflow-hidden">
               <div className="relative z-10">
-                <Utensils className="w-8 h-8 text-emerald-300 mb-4" />
-                <h4 className="font-sans font-bold text-lg text-emerald-300">{t("analysis.nutritionTitle")}</h4>
-                <p className="text-emerald-100/90 text-sm mt-3 leading-relaxed">
+                <Utensils className="w-8 h-8 text-teal-300 mb-4" />
+                <h4 className="font-sans font-bold text-lg text-teal-300">{t("analysis.nutritionTitle")}</h4>
+                <p className="text-teal-100/90 text-sm mt-3 leading-relaxed">
                   {analysisResult.dietaryFocus}
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-white/10 text-xs text-emerald-200 font-semibold flex items-center space-x-1 relative z-10">
+              <div className="mt-6 pt-4 border-t border-white/10 text-xs text-teal-200 font-semibold flex items-center space-x-1 relative z-10">
                 <span>{t("analysis.viewMenus")}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </div>
-              <div className="absolute -right-16 -bottom-16 w-44 h-44 rounded-full bg-emerald-500/10 blur-2xl"></div>
+              <div className="absolute -right-16 -bottom-16 w-44 h-44 rounded-full bg-teal-500/10 blur-2xl"></div>
             </div>
 
           </div>

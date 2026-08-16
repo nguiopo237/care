@@ -16,7 +16,7 @@ const PageLoader = () => {
   return (
     <div className="flex items-center justify-center py-20">
       <div className="flex flex-col items-center space-y-3">
-        <div className="w-8 h-8 border-2 border-[#064E3B] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#0fb3a9] border-t-transparent rounded-full animate-spin" />
         <span className="text-xs text-slate-400 font-medium">{t("common.loading")}</span>
       </div>
     </div>

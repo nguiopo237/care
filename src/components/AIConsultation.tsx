@@ -114,10 +114,10 @@ PROFIL DE L'UTILISATEUR:
     onChunk: (text: string) => void,
     signal?: AbortSignal
   ): Promise<void> => {
-    const apiKey = "";
+    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || "";
 
     if (!apiKey) {
-      throw new Error("Clé API OpenRouter manquante.");
+      throw new Error("Clé API OpenRouter manquante. Configurez VITE_OPENROUTER_API_KEY.");
     }
 
     const body = JSON.stringify({
@@ -296,20 +296,20 @@ PROFIL DE L'UTILISATEUR:
     <div className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden h-[600px] flex flex-col justify-between animate-fade-in">
       
       {/* Consultation Header */}
-      <div className="bg-[#064E3B] p-5 text-white flex justify-between items-center shadow-sm">
+      <div className="bg-[#0fb3a9] p-5 text-white flex justify-between items-center shadow-sm">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center">
-            <Bot className="w-5 h-5 text-emerald-300 animate-pulse" />
+            <Bot className="w-5 h-5 text-teal-300 animate-pulse" />
           </div>
           <div>
             <h3 className="font-sans font-bold text-sm sm:text-base">{t("consultation.title")}</h3>
-            <span className="text-[10px] text-emerald-300 font-semibold flex items-center space-x-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block mr-1"></span>
+            <span className="text-[10px] text-teal-300 font-semibold flex items-center space-x-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping inline-block mr-1"></span>
               <span>{t("consultation.subtitle")}</span>
             </span>
           </div>
         </div>
-        <div className="text-right text-[10px] text-emerald-100 font-mono hidden sm:block">
+        <div className="text-right text-[10px] text-teal-100 font-mono hidden sm:block">
           <span>{t("consultation.responseTime")}</span>
         </div>
       </div>
@@ -319,7 +319,7 @@ PROFIL DE L'UTILISATEUR:
         
         {/* Welcome notice */}
         <div className="bg-white p-4 rounded-2xl border border-slate-100 max-w-2xl mx-auto flex items-start space-x-3 text-slate-500 text-xs shadow-sm">
-          <HelpCircle className="w-5 h-5 text-[#064E3B] shrink-0 mt-0.5" />
+          <HelpCircle className="w-5 h-5 text-[#0fb3a9] shrink-0 mt-0.5" />
           <div>
             <strong className="text-slate-800 font-bold block mb-1">{t("consultation.helpTitle")}</strong>
             {t("consultation.helpDesc")}
@@ -335,7 +335,7 @@ PROFIL DE L'UTILISATEUR:
               className={`flex items-end space-x-2 ${isAI ? "justify-start" : "justify-end"}`}
             >
               {isAI && (
-                <div className="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-700 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-teal-100 border border-teal-200 text-teal-700 flex items-center justify-center shrink-0">
                   <Bot className="w-4 h-4" />
                 </div>
               )}
@@ -344,26 +344,26 @@ PROFIL DE L'UTILISATEUR:
                 className={`max-w-[75%] p-4 rounded-2xl text-xs sm:text-sm shadow-sm ${
                   isAI
                     ? "bg-white text-slate-800 border border-slate-100 rounded-bl-none leading-relaxed"
-                    : "bg-[#064E3B] text-white rounded-br-none"
+                    : "bg-[#0fb3a9] text-white rounded-br-none"
                 }`}
               >
                 {isAI ? (
-                  <div className="prose prose-sm prose-emerald max-w-none">
+                  <div className="prose prose-sm prose-teal max-w-none">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
-                        strong: ({ children }) => <strong className="font-bold text-[#064E3B]">{children}</strong>,
+                        strong: ({ children }) => <strong className="font-bold text-[#0fb3a9]">{children}</strong>,
                         ul: ({ children }) => <ul className="list-disc list-inside space-y-1 my-1">{children}</ul>,
                         ol: ({ children }) => <ol className="list-decimal list-inside space-y-1 my-1">{children}</ol>,
                         li: ({ children }) => <li className="text-slate-700">{children}</li>,
                         p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                        h1: ({ children }) => <h1 className="text-base font-bold text-[#064E3B] mb-2">{children}</h1>,
-                        h2: ({ children }) => <h2 className="text-sm font-bold text-[#064E3B] mb-1.5">{children}</h2>,
-                        h3: ({ children }) => <h3 className="text-xs font-bold text-[#064E3B] mb-1">{children}</h3>,
+                        h1: ({ children }) => <h1 className="text-base font-bold text-[#0fb3a9] mb-2">{children}</h1>,
+                        h2: ({ children }) => <h2 className="text-sm font-bold text-[#0fb3a9] mb-1.5">{children}</h2>,
+                        h3: ({ children }) => <h3 className="text-xs font-bold text-[#0fb3a9] mb-1">{children}</h3>,
                         code({ className, children, inline }: any) {
                           if (inline) {
                             return (
-                              <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#064E3B] text-[10px]">
+                              <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#0fb3a9] text-[10px]">
                                 {children}
                               </code>
                             );
@@ -378,7 +378,7 @@ PROFIL DE L'UTILISATEUR:
                                 <button
                                   type="button"
                                   onClick={() => handleCopy(codeString)}
-                                  className={`hover:text-white transition-colors cursor-pointer text-[10px] ${copiedCodeBlock === codeString ? "text-emerald-400" : ""}`}
+                                  className={`hover:text-white transition-colors cursor-pointer text-[10px] ${copiedCodeBlock === codeString ? "text-teal-400" : ""}`}
                                 >
                                   {copiedCodeBlock === codeString ? t("common.copied") : t("common.copy")}
                                 </button>
@@ -403,7 +403,7 @@ PROFIL DE L'UTILISATEUR:
                           );
                         },
                         pre: ({ children }) => <>{children}</>,
-                        blockquote: ({ children }) => <blockquote className="border-l-2 border-emerald-400 pl-3 italic text-slate-600 my-2">{children}</blockquote>,
+                        blockquote: ({ children }) => <blockquote className="border-l-2 border-teal-400 pl-3 italic text-slate-600 my-2">{children}</blockquote>,
                         hr: () => <hr className="my-3 border-slate-200" />,
                       }}
                     >
@@ -422,7 +422,7 @@ PROFIL DE L'UTILISATEUR:
               </div>
 
               {!isAI && (
-                <div className="w-8 h-8 rounded-lg bg-[#064E3B] text-white flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-[#0fb3a9] text-white flex items-center justify-center shrink-0">
                   <User className="w-4 h-4" />
                 </div>
               )}
@@ -433,11 +433,11 @@ PROFIL DE L'UTILISATEUR:
         {/* Waiting indicator (only while waiting for the first chunk) */}
         {isStreaming && streamingMsgId && localMessages.find(m => m.id === streamingMsgId)?.text === "" && (
           <div className="flex items-end space-x-2 justify-start">
-            <div className="w-8 h-8 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-700 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-teal-100 border border-teal-200 text-teal-700 flex items-center justify-center shrink-0">
               <Bot className="w-4 h-4" />
             </div>
             <div className="bg-white text-slate-500 border border-slate-100 p-4 rounded-2xl rounded-bl-none text-xs flex items-center space-x-2 shadow-sm">
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#064E3B]" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#0fb3a9]" />
               <span>{t("consultation.waitingMessage")}</span>
             </div>
           </div>
@@ -456,7 +456,7 @@ PROFIL DE L'UTILISATEUR:
                 key={i}
                 id={`btn-sug-${i}`}
                 onClick={() => handleSuggestionClick(sug)}
-                className="text-left bg-white hover:bg-emerald-50 text-slate-600 hover:text-[#064E3B] text-xs px-3 py-2 rounded-xl border border-slate-200 shadow-sm transition-all text-ellipsis overflow-hidden cursor-pointer"
+                className="text-left bg-white hover:bg-teal-50 text-slate-600 hover:text-[#0fb3a9] text-xs px-3 py-2 rounded-xl border border-slate-200 shadow-sm transition-all text-ellipsis overflow-hidden cursor-pointer"
               >
                 {sug}
               </button>
@@ -474,13 +474,13 @@ PROFIL DE L'UTILISATEUR:
           placeholder={t("consultation.placeholder")}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#064E3B]"
+          className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0fb3a9]"
         />
         <button
           type="submit"
           id="btn-send-message"
           disabled={isStreaming}
-          className="bg-[#064E3B] hover:bg-[#043427] text-white p-3 rounded-xl shadow-sm transition-all flex items-center justify-center shrink-0 cursor-pointer"
+          className="bg-gradient-to-r from-[#14cec3] to-[#0fb3a9] hover:from-[#0fb3a9] hover:to-[#0d9488] text-white p-3 rounded-xl shadow-sm transition-all flex items-center justify-center shrink-0 cursor-pointer"
         >
           <Send className="w-4 h-4" />
         </button>

@@ -12,7 +12,7 @@
 body {
   font-family: var(--font-sans);
   background-color: #F7F9F9; /* Clean Minimalism light slate/gray-blue */
-  color: #1A2E35; /* Custom slate color from HTML design */
+  color: #111827; /* Reference gray-900 from C.E MultiTransGlob */
 }
 
 .font-display {
@@ -20,8 +20,8 @@ body {
 }
 
 /* Custom glow effects */
-.glow-emerald {
-  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.15);
+.glow-teal {
+  box-shadow: 0 0 25px -5px rgba(20, 206, 195, 0.15);
 }
 
 .glow-blue {
